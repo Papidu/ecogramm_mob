@@ -52,7 +52,7 @@ export default function Service() {
             const statuss= response.status
             creatAlertMSG(statuss==201)
             
-            console.log(json, typeof(statuss),statuss)
+            // console.log(json, typeof(statuss),statuss)
             // setTableData(json)
         } catch (e){
             console.log('Ошибка ', e)
@@ -61,20 +61,24 @@ export default function Service() {
 
     function onSubmit(){
         let dataForm = {}
-        if(textAddres === '')
+        if(textAddres === ''){
             alert('Укажите пожалуйста адресс');
-        if(dataTimeText === '')
-            alert('Укажите пожалуйста дату и время');
-        dataForm = {
-            "courier_phone": "8 (978) 777-77-77",
-            "user_phone": userPhone,// 8 (978) 806-10-44,
-            "address": textAddres,
-            "create_date": dataTimeText,
-            "thrash_types": [selectTypeGarbage===1?"Макулатура":"Стекло"],
-            "price": 200
         }
-        console.log(dataForm);
-        postDeliveryCreateRequest(dataForm);
+        if(dataTimeText === ''){
+            alert('Укажите пожалуйста дату и время');
+        }
+        if(textAddres  !== '' && dataTimeText !== ''){
+            dataForm = {
+                "courier_phone": "8 (978) 777-77-77",
+                "user_phone": userPhone,// 8 (978) 806-10-44,
+                "address": textAddres,
+                "create_date": dataTimeText,
+                "thrash_types": [selectTypeGarbage===1?"Макулатура":"Стекло"],
+                "price": 200
+            }
+            // console.log(dataForm);
+            postDeliveryCreateRequest(dataForm);
+        }
     }
 
     return (

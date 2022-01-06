@@ -20,7 +20,7 @@ export default function OrderList() {
             const response = await fetch(url, header);
             const json = await response.json();
             const statuss= response.status
-            console.log(json)
+            // console.log(json)
             setOrderData(json)
             setrefReshing(false)
             // setOrderData(fakeData)
@@ -70,7 +70,6 @@ const OrderItem = (props) => {
                     <Text style={styles.text}>Имя курьера</Text>
                     <Text>{item.courier_name}</Text>
                     <Text style={styles.text}>Дата заявки</Text>
-                    {console.log(typeof(item.create_date))}
                     <Text style={{color:'black', fontSize:15}}>{date}</Text>
                     <Text style={styles.text}>Статус заказа</Text>
                     <Text style={[item.status==='в ожидании'?styles.textStatusGold: styles.textStatusGreen]}>{item.status}</Text>

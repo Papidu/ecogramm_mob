@@ -13,10 +13,3 @@ export default function App() {
   );
 }
 
-
-// {/* <NavigationContainer style={{backgroundColor:'#E4E4E4'}}> 
-//           {/* <StatusBar barStyle='light-content'  />        */}
-//         //   <Navigator/>                  
-//         // </NavigationContainer>
-// //         {/* <Service/> */}
-// //         {/* <OrderList/> */}  */}

@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function DataTimePickers(props) {
     
-    const {setDataTimeText} = props;
+    const {setDataTimeText, needTime=true, minimumDate=new Date(), setOnlydata} = props;
     
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
@@ -22,6 +22,9 @@ export default function DataTimePickers(props) {
         let tempDate = new Date(currentDate);
         let formatDate = tempDate.getFullYear() + '-' + ((tempDate.getMonth()+1) <10?'0'+(tempDate.getMonth()+1):(tempDate.getMonth()+1))+'-'+ tempDate.getDate();
         let formatTime = tempDate.getHours() +':' + tempDate.getMinutes()+ ':'+tempDate.getSeconds();
+        if(!needTime){
+            setOnlydata(formatDate)
+        }
         setText(formatDate+' '+ formatTime);
         setDataTimeText(formatDate+' '+ formatTime)
         // console.log(formatDate+ ' ' + formatTime+ '\n'+ new Date(currentDate))
@@ -49,10 +52,15 @@ export default function DataTimePickers(props) {
                 <AntDesign name="calendar" size={24} color="black" />
                 
             </TouchableOpacity>
-            <TouchableOpacity onPress={showTimepicker} style={styles.item}>
-                <Text style={styles.textData}>Укажите время</Text>
-                <Ionicons name="time-outline" size={24} color="black" />                
-            </TouchableOpacity>
+            {
+                needTime?(
+                    <TouchableOpacity onPress={showTimepicker} style={styles.item}>
+                        <Text style={styles.textData}>Укажите время</Text>
+                        <Ionicons name="time-outline" size={24} color="black" />                
+                    </TouchableOpacity>
+                ): (<></>)
+            }
+            
             
             {show && (
                 <DateTimePicker
@@ -63,7 +71,7 @@ export default function DataTimePickers(props) {
                 display="default"
                 onChange={onChange}
                 minuteInterval={2} 
-                minimumDate={new Date()}
+                minimumDate={minimumDate}
                 />
             )}
     </View>
