@@ -9,7 +9,7 @@ import DataTimePickers from './DataTimePicker';
 const window_ = Dimensions.get('window');
 
 export default function Registration() {
-    const [textPhoneNumber, onChangePhoneNumber] = useState("8 (800) 555-55-55");
+    const [textPhoneNumber, onChangePhoneNumber] = useState("88425555555");
     const [textPassword, onChangePassword] = useState("55");
     const [textUserName, onChangeUserName] = useState("neo");
     const [textName, onChangeName] = useState("Кирилл");setOnlydata
@@ -35,7 +35,7 @@ export default function Registration() {
         const url = 'http://vm-fd0ab233.na4u.ru:8080/register';
         const header = {            
             method: 'POST', 
-            body: JSON.stringify(data),
+            body: JSON.stringify([data]),
             headers: {
             'Content-Type': 'application/json'
         }}    
@@ -64,7 +64,7 @@ export default function Registration() {
             !isInputEmpty(textName,'ваше имя') &&
             !isInputEmpty(textUserName,'ваше ник') &&
             !isInputEmpty(textSurname,'вашу фамилию') &&
-            !isInputEmpty(textBirthday,'вашу дату раждения')
+            !isInputEmpty(textBirthday,'вашу дату рождения')
         ){
             dataForm = {
                 "phone_number": textPhoneNumber,

@@ -10,7 +10,7 @@ const window_ = Dimensions.get('window');
 
 export default function Service() {
     const [textAddres, onChangeTextAddres] = useState("");
-    const [userPhone, onChangeUserPhonr] = useState("8 (978) 806-10-33");
+    const [userPhone, onChangeUserPhonr] = useState("8 (978) 876-10-33");
     const [selectTypeGarbage, setselectTypeGarbage] = useState(1)
     const [dataTimeText, setDataTimeText] = useState(new Date());
     const creatAlertMSG = (isOK) =>
@@ -69,7 +69,7 @@ export default function Service() {
         }
         if(textAddres  !== '' && dataTimeText !== ''){
             dataForm = {
-                "courier_phone": "8 (978) 777-77-77",
+                "courier_phone":"8 (000) 000-00-00",
                 "user_phone": userPhone,// 8 (978) 806-10-44,
                 "address": textAddres,
                 "create_date": dataTimeText,

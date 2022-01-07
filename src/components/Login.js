@@ -11,7 +11,7 @@ export default function Login() {
     const navigation = useNavigation()
     const creatAlertMSG = (isOK) =>
     {
-        if(!isOK)
+        if(isOK)
         {
             Alert.alert(
                 "Заяка не сформирована",

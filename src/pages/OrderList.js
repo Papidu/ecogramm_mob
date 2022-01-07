@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import { View, Text, FlatList,ScrollView,StyleSheet, RefreshControl} from 'react-native'
 import NavBar from '../components/NavBar'
+import { HEIGHT } from '../../constants';
+
 
 
 export default function OrderList() {
     const [orderData, setOrderData] = useState([{}])
     const [refreshing, setrefReshing] = useState(false)
+
     const onRefreshItem =async () =>{
         setrefReshing(true)
         const url = 'http://vm-fd0ab233.na4u.ru:8080/delivery/requests';
@@ -20,7 +23,7 @@ export default function OrderList() {
             const response = await fetch(url, header);
             const json = await response.json();
             const statuss= response.status
-            // console.log(json)
+            console.log(json)
             setOrderData(json)
             setrefReshing(false)
             // setOrderData(fakeData)
@@ -34,19 +37,38 @@ export default function OrderList() {
     useEffect( () => {
         onRefreshItem();
     }, [])
+
+    const userPhones = "8 (978) 876-10-33"
+
     return (
         <View>
             <NavBar title='Мои заказы'/>
-            <View style={{marginTop: 5,height:580}}> 
-                <FlatList
-                    data={orderData}
-                    keyExtractor={(item) => item.id}
+            <View style={{marginTop: 10,height:HEIGHT /1.3} }> 
+                {
+                    orderData.length === 0?(
+                        <ScrollView
+                            contentContainerStyle={{justifyContent:'center',alignItems:'center'}}
+                            refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefreshItem}
+                            />
+                            }
+                        >
+                            <Text>Вы ничего не заказывали</Text> 
+                        </ScrollView>
+                    ):( 
+                   <FlatList
+                    data={orderData.filter(x => x.user_phone_number === userPhones)}
+                    keyExtractor={(item, index) => index.toString()}
+                    // keyExtractor={item => item.id}
                     refreshControl={<RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefreshItem}
                         />}
                     renderItem={({item}) =><OrderItem item={item} />}
-                />
+                    />
+                )}
             </View>
         </View>
     )
@@ -60,7 +82,7 @@ const OrderItem = (props) => {
             <View style={styles.container}> 
                 <View>
                     <Text style={styles.text}>Имя заказчика</Text>
-                    <Text>{item.user_name}</Text>
+                    <Text>{item.user_name || 'Не назначен'}</Text>
                     <Text style={styles.text}>Подготовить к вывозу </Text>
                     <Text>{item.thrash_type}</Text>
                     <Text style={styles.text}>Адресс доставки</Text>
@@ -100,6 +122,11 @@ const styles = StyleSheet.create({
         color:'green',
     }
   });
+
+
+
+
+
 
 const fakeData = [
     {
