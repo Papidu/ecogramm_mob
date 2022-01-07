@@ -35,7 +35,8 @@ export default function Registration() {
         const url = 'http://vm-fd0ab233.na4u.ru:8080/register';
         const header = {            
             method: 'POST', 
-            body: JSON.stringify([data]),
+            body: JSON.stringify(data),
+            // credentials: 'include',
             headers: {
             'Content-Type': 'application/json'
         }}    
