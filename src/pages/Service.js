@@ -13,7 +13,7 @@ export default function Service() {
     const [userPhone, onChangeUserPhonr] = useState("8 (978) 876-10-33");
     const [selectTypeGarbage, setselectTypeGarbage] = useState(1)
     const [dataTimeText, setDataTimeText] = useState(new Date());
-    const creatAlertMSG = (isOK) =>
+    const createAlertMSG = (isOK) =>
     {
         if(isOK)
         {
@@ -49,8 +49,8 @@ export default function Service() {
         try{
             const response = await fetch(url, header);
             const json = await response.json();
-            const statuss= response.status
-            creatAlertMSG(statuss==201)
+            const status= response.status
+            createAlertMSG(status==201)
             
             // console.log(json, typeof(statuss),statuss)
             // setTableData(json)
@@ -62,10 +62,10 @@ export default function Service() {
     function onSubmit(){
         let dataForm = {}
         if(textAddres === ''){
-            alert('Укажите пожалуйста адресс');
+            alert('Укажите, пожалуйста, адрес');
         }
         if(dataTimeText === ''){
-            alert('Укажите пожалуйста дату и время');
+            alert('Укажите, пожалуйста, дату и время');
         }
         if(textAddres  !== '' && dataTimeText !== ''){
             dataForm = {
@@ -90,11 +90,11 @@ export default function Service() {
                         style={styles.input}
                         onChangeText={onChangeTextAddres}
                         value={textAddres}
-                        placeholder='Укажите адресс доставки'
+                        placeholder='Укажите адрес доставки'
                     />
                     <View >
                         <Text style={styles.text}>Выберите, что хотите сдать:</Text>
-                        <View style={styles.contienerItems}>
+                        <View style={styles.containerItems}>
                             <TouchableOpacity style={styles.item} onPress={()=> setselectTypeGarbage(1)}> 
                                 <Entypo name="text-document" size={40} color={selectTypeGarbage===1? "brown": "black"} /> 
                                 <Text>Mакулатура</Text>
@@ -118,7 +118,7 @@ export default function Service() {
                                 onChangeText={onChangeUserPhonr}
                             />
                         </View>
-                        <View style={styles.contienerItems}>
+                        <View style={styles.containerItems}>
                             <TouchableOpacity style={styles.button} onPress={()=> onSubmit()}>
                                 <Text style={styles.textButton}>Заказать</Text>
                             </TouchableOpacity>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,     
         // backgroundColor:'red'   
     },
-    contienerItems:{
+    containerItems:{
         flexDirection: 'row',
         justifyContent:'space-around',
         marginHorizontal: 16,

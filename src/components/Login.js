@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import { Dimensions } from "react-native"
 import { useNavigation } from '@react-navigation/native'
@@ -9,10 +9,8 @@ export default function Login() {
     const [textLogin, onChangeTextLogin] = useState("8 (978) 806-13-25");
     const [textPassword, onChangePassword] = useState("1");
     const navigation = useNavigation()
-    const creatAlertMSG = (isOK) =>
-    {
-        if(isOK)
-        {
+    const createAlertMSG = (isOK) => {
+        if (isOK) {
             Alert.alert(
                 "Заяка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
@@ -22,49 +20,53 @@ export default function Login() {
             );
         }
     }
+    const handleRegistrationCourier =() =>{
+        navigation.navigate('AuthForm', {screen: 'Регистрация'});
+    }
 
-    const postAuthToken= async (data) =>{
+    const postAuthToken = async (data) => {
         const url = 'http://vm-fd0ab233.na4u.ru:8080/auth/token';
-        const header = {            
-            method: 'POST', 
+        const header = {
+            method: 'POST',
             body: JSON.stringify(data),
             headers: {
-            'Content-Type': 'application/json'
-        }}    
-        try{
+                'Content-Type': 'application/json'
+            }
+        }
+        try {
             const response = await fetch(url, header);
             const json = await response.json();
-            const statuss= response.status
-            creatAlertMSG(statuss===201)
-            console.log(json, statuss)
+            const status = response.status
+            createAlertMSG(status === 201)
+            console.log(json, status)
             // setTableData(json)
-        } catch (e){
+        } catch (e) {
             console.log('Ошибка ', e)
         }
     }
 
-    function onSubmit(){
+    function onSubmit() {
         let dataForm = {}
-        if(textLogin === ''){
-            alert('Укажите пожалуйста логин или номер телефон');
+        if (textLogin === '') {
+            alert('Укажите, пожалуйста, логин или номер телефона');
         }
-        if(textPassword === ''){
-            alert('Укажите пожалуйста пароль');
+        if (textPassword === '') {
+            alert('Укажите, пожалуйста, пароль');
         }
-        if(textLogin  !== '' && textPassword !== ''){
+        if (textLogin !== '' && textPassword !== '') {
             dataForm = {
                 "username": "mikle",
                 "password": 1
             }
             // console.log(dataForm);
             postAuthToken(dataForm);
-            navigation.replace('CourierHome',{back: false})
+            navigation.replace('CourierHome', { back: false })
         }
     }
 
 
     return (
-        <View style={styles.conteiner}>
+        <View style={styles.container}>
             <View>
                 <TextInput
                     placeholder='Введите логин или номер телефона'
@@ -82,24 +84,27 @@ export default function Login() {
                     value={textPassword}
                 />
             </View>
-            <View style={styles.contienerItems}>
-                <TouchableOpacity style={styles.button} onPress={()=> onSubmit()}>
+            <View style={styles.containerItems}>
+                <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
                     <Text style={styles.textButton}>Войти</Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={() => handleRegistrationCourier()}>
+                <Text style={{textDecorationLine: "underline", fontSize: 17, marginTop: 15}}>Ещё не зарегистрированы?</Text>
+            </TouchableOpacity>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    conteiner:{
+    container: {
         // backgroundColor: 'gold',
-        height:window_.height / 1.2,
+        height: window_.height / 1.2,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    textInput:{
+    textInput: {
         height: 40,
         width: 300,
         marginVertical: 10,
@@ -107,26 +112,27 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingTop: 5,
         fontSize: 15,
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
         borderStyle: 'solid',
-        borderWidth: 2,     
+        borderWidth: 2,
         // backgroundColor:'red'   
-    },contienerItems:{
+    },
+    containerItems: {
         flexDirection: 'row',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
         marginHorizontal: 16,
         marginBottom: 20,
     },
-    item:{
+    item: {
         marginLeft: 5,
         width: 150,
         borderStyle: 'solid',
         borderWidth: 2,
         padding: 5,
-        alignItems:'center'
+        alignItems: 'center'
     },
-    button:{
+    button: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -140,4 +146,4 @@ const styles = StyleSheet.create({
         margin: 10,
         fontSize: 20,
     },
-  });
+});

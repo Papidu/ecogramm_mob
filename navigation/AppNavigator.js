@@ -40,7 +40,6 @@ export const Navigator = () => {
                         tabBarLabel: 'Service',
                         tabBarIcon: ({color,size, focused}) => (<MaterialIcons name="delivery-dining" size={24} color={focused ? 'green': 'gray'} /> ),
                     }}  
-                    // <SvgService color={focused ? 'green': 'gray'}/>  
                 />
                 <Tabs.Screen 
                     name="Orders"
@@ -55,44 +54,44 @@ export const Navigator = () => {
             </Tabs.Navigator >                
         );
     };
-    const TabStack2 = () => {
-        return (
-            <Tabs.Navigator
-                screenOptions={{
-                    headerShown:false,
-                    tabBarStyle: {
-                    height: 60,
-                    position: 'absolute',
-                    bottom: 10,
-                    left: 16,
-                    right: 16,
-                    borderRadius:20,
-                    zIndex:0
-                    }
-                }}                
-            >
-                <Tabs.Screen
-                    name="CourierHome" 
-                    component={CourierHome}
-                    options={{
-                        tabBarLabel: 'CourierHome',
-                        tabBarIcon: ({color,size, focused}) => (<MaterialIcons name="delivery-dining" size={24} color={focused ? 'green': 'gray'} /> ),
-                    }}  
-                    // <SvgService color={focused ? 'green': 'gray'}/>  
-                />
-                <Tabs.Screen 
-                    name="Orders"
-                    component={OrderList}                    
-                    options={{
-                        tabBarVisible: true,
-                        // tabBarVisible: false,
-                        tabBarLabel: 'Orders',
-                        tabBarIcon: ({color,size, focused}) => (<Ionicons name="documents" size={24} color={focused ? 'green': 'gray'} /> ),
-                    }}
-                />
-            </Tabs.Navigator >                
-        );
-    };
+    // const TabStack2 = () => {
+    //     return (
+    //         <Tabs.Navigator
+    //             screenOptions={{
+    //                 headerShown:false,
+    //                 tabBarStyle: {
+    //                 height: 60,
+    //                 position: 'absolute',
+    //                 bottom: 10,
+    //                 left: 16,
+    //                 right: 16,
+    //                 borderRadius:20,
+    //                 zIndex:0
+    //                 }
+    //             }}                
+    //         >
+    //             <Tabs.Screen
+    //                 name="CourierHome" 
+    //                 component={CourierHome}
+    //                 options={{
+    //                     tabBarLabel: 'CourierHome',
+    //                     tabBarIcon: ({color,size, focused}) => (<MaterialIcons name="delivery-dining" size={24} color={focused ? 'green': 'gray'} /> ),
+    //                 }}  
+    //                 // <SvgService color={focused ? 'green': 'gray'}/>  
+    //             />
+    //             <Tabs.Screen 
+    //                 name="Orders"
+    //                 component={OrderList}                    
+    //                 options={{
+    //                     tabBarVisible: true,
+    //                     // tabBarVisible: false,
+    //                     tabBarLabel: 'Orders',
+    //                     tabBarIcon: ({color,size, focused}) => (<Ionicons name="documents" size={24} color={focused ? 'green': 'gray'} /> ),
+    //                 }}
+    //             />
+    //         </Tabs.Navigator >                
+    //     );
+    // };
     const AuthStack = () =>{
         return (
             <Stack.Navigator>
@@ -110,7 +109,7 @@ export const Navigator = () => {
         >   
             <Stack.Screen name="EntryForm" component={EntryForm} />
             <Stack.Screen name="AuthForm" component={AuthStack} />
-            <Stack.Screen name= {'Tabs2'} component={TabStack2} />
+            {/* <Stack.Screen name= {'Tabs2'} component={TabStack2} /> */}
             <Stack.Screen name="CourierHome" component={CourierHome} />
             <Stack.Screen name= {'Tabs'} component={TabStack} />
             <Stack.Screen name="Service" component={Service} />

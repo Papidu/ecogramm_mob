@@ -12,12 +12,12 @@ export default function Registration() {
     const [textPhoneNumber, onChangePhoneNumber] = useState("88425555555");
     const [textPassword, onChangePassword] = useState("55");
     const [textUserName, onChangeUserName] = useState("neo");
-    const [textName, onChangeName] = useState("Кирилл");setOnlydata
+    const [textName, onChangeName] = useState("Кирилл");setOnlyData // setOnlyData в этой строке нужна?
     const [textSurname, onChangeSurname] = useState("Кудряшов");
     const [textBirthday, onChangeBirthday] = useState("1996-05-03");
-    const [textOnlydata, setOnlydata] = useState("1996-05-03");
+    const [textOnlydata, setOnlyData] = useState("1996-05-03");
     const navigation = useNavigation()
-    const creatAlertMSG = (isOK) =>
+    const createAlertMSG = (isOK) =>
     {
         if(!isOK)
         {
@@ -43,9 +43,9 @@ export default function Registration() {
         try{
             const response = await fetch(url, header);
             const json = await response.json();
-            const statuss= response.status
-            creatAlertMSG(statuss===201)
-            console.log(json, statuss)
+            const status = response.status
+            createAlertMSG(status===201)
+            console.log(json, status)
         } catch (e){
             console.log('Ошибка ', e)
         }
@@ -60,12 +60,12 @@ export default function Registration() {
     
     function onSubmit(){
         let dataForm = {}
-        if(!isInputEmpty(textPhoneNumber,'ваш номер телефон') &&
-            !isInputEmpty(textPassword,'ваш пароль') &&
-            !isInputEmpty(textName,'ваше имя') &&
-            !isInputEmpty(textUserName,'ваше ник') &&
-            !isInputEmpty(textSurname,'вашу фамилию') &&
-            !isInputEmpty(textBirthday,'вашу дату рождения')
+        if(!isInputEmpty(textPhoneNumber,'Ваш номер телефона') &&
+            !isInputEmpty(textPassword,'Ваш пароль') &&
+            !isInputEmpty(textName,'Ваше имя') &&
+            !isInputEmpty(textUserName,'Ваш ник') &&
+            !isInputEmpty(textSurname,'Вашу фамилию') &&
+            !isInputEmpty(textBirthday,'Вашу дату рождения')
         ){
             dataForm = {
                 "phone_number": textPhoneNumber,
@@ -83,18 +83,19 @@ export default function Registration() {
 
 
     return (
-        <View style={styles.conteiner}>
+        <View style={styles.container}>
             <View>
                 <TextInput
-                    placeholder='Введите ваш номер телефон'
+                    placeholder='Введите Ваш номер телефона'
                     style={styles.textInput}
                     onChangeText={onChangePhoneNumber}
                     value={textPhoneNumber}
+                    keyboardType={'phone-pad'}
                 />
             </View>
             <View>
                 <TextInput
-                    placeholder='Введите пароль'
+                    placeholder='Придумайте пароль'
                     style={styles.textInput}
                     onChangeText={onChangePassword}
                     secureTextEntry={true}
@@ -103,7 +104,7 @@ export default function Registration() {
             </View>
             <View>
                 <TextInput
-                    placeholder='Введите ваше  ник'
+                    placeholder='Придмайте никнейм'
                     style={styles.textInput}
                     onChangeText={onChangeUserName}
                     value={textUserName}
@@ -126,15 +127,15 @@ export default function Registration() {
                 />
             </View>
             <View>
-                <Text>Укажите дату раждения</Text>
+                <Text>Укажите Вашу дату рождения</Text>
                 <DataTimePickers 
                     needTime={false} 
                     setDataTimeText={onChangeBirthday}
-                    minimumDate={new Date(1950, 0, 1)}
+                    minimumDate={new Date(1900, 1, 1)}
                     setOnlydata={onChangeBirthday}
                 />
             </View>            
-            <View style={styles.contienerItems}>
+            <View style={styles.containerItems}>
                 <TouchableOpacity style={styles.button} onPress={()=> onSubmit()}>
                     <Text style={styles.textButton}>Зарегистрироваться</Text>
                 </TouchableOpacity>
@@ -145,7 +146,7 @@ export default function Registration() {
 
 
 const styles = StyleSheet.create({
-    conteiner:{
+    container:{
         // backgroundColor: 'gold',
         height:window_.height / 1.2,
         alignItems: 'center',
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 2,     
         // backgroundColor:'red'   
-    },contienerItems:{
+    },containerItems:{
         flexDirection: 'row',
         justifyContent:'space-around',
         marginHorizontal: 16,

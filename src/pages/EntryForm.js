@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
-import { View, Text, TouchableOpacity,StyleSheet } from 'react-native'
+import { Image, View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import NavBar from '../components/NavBar'
 import { useNavigation } from '@react-navigation/native'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function EntryForm() {
     const [modeApp, setModeApp] = useState('base_user')
@@ -14,37 +15,27 @@ export default function EntryForm() {
     const handleLoginCourier =() =>{
         navigation.navigate('AuthForm', {screen: 'Авторизация'});
     }
-    const handleRegistrationCourier =() =>{
-        navigation.navigate('AuthForm', {screen: 'Регистрация'});
-    }
 
     return (
-        <View>            
+        <View>
+            <Image source={require('../../assets/icon.png')} style={styles.logo}/>
             {
                 modeApp === 'base_user'? (
                 <View>
-                    <NavBar title='Вход в систему как'/>
-                    <View style={styles.conteiner}>
+                    <NavBar title='Войти в систему как'/>
+                    <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.button} onPress={()=> handleBaseUser()}>
-                            <Text style={styles.text}>Пользователь</Text>
+                            <MaterialIcons name="person" size={24} color="black" />
+                            <Text style={styles.buttonText}>Пользователь</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.text}  onPress={()=> setModeApp('courier')}>Курьер</Text>
+                        <TouchableOpacity style={styles.button} onPress={()=> handleLoginCourier()}>
+                            <MaterialIcons name="shopping-bag" size={24} color="black" style={styles.inlineIcons}/>
+                            <Text style={styles.buttonText}>Курьер</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
                 ) : (
-                <View>
-                    <NavBar title='Войдите или зарегистрируйтесь'/>
-                    <View style={styles.conteiner}>
-                        <TouchableOpacity style={styles.button}  onPress={()=> handleLoginCourier()}>
-                            <Text style={styles.text}>Войти</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonRegistration} onPress={()=> handleRegistrationCourier()}>
-                            <Text style={styles.text}>Зарегистрироваться</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                    console.log('Необработанное состояние пользователя', modeApp)
                 )
             }
         </View>
@@ -54,34 +45,32 @@ export default function EntryForm() {
 
 
 const styles = StyleSheet.create({
-    conteiner:{
-        // backgroundColor: 'gold',
-        height:550,
+    buttonContainer:{
+        marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
     },
     button: {
-        margin:30,
-        width:200,
-        height:50,
+        margin: 30,
+        paddingLeft: 20,
+        height: 100,
+        width: 240,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         borderWidth: 1,  
         borderRadius: 20, 
-        backgroundColor: '#32b3db'   
+        backgroundColor: '#32b3db',
+        flexDirection: 'row',
     },
-    buttonRegistration: {
-        margin:30,
-        width:300,
-        height:50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,  
-        borderRadius: 20, 
-        backgroundColor: '#32b3db'   
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 10
     },
-    text:{
-        fontSize:20,
-        fontWeight: 'bold'
-    }
+    logo: {
+        width: 305,
+        height: 159,
+        marginVertical: 15,
+        alignSelf: 'center',
+    },
   });

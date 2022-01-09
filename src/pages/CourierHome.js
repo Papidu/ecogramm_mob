@@ -21,7 +21,7 @@ export default function CourierHome() {
         try{
             const response = await fetch(url, header);
             const json = await response.json();
-            const statuss= response.status
+            const status = response.status
             // console.log(json)
             setOrderData(json)
             setrefReshing(false)
@@ -55,8 +55,8 @@ export default function CourierHome() {
                 try{
                     const response = await fetch(url, header);
                     const json = await response.json();
-                    const statuss= response.status;
-                    console.log(statuss)
+                    const status = response.status;
+                    console.log(status)
                     setrefReshing(true)
                     return response
                     
@@ -119,7 +119,7 @@ export default function CourierHome() {
                         <Text>{item.user_name || 'Не назначен'}</Text>
                         <Text style={styles.text}>Подготовить к вывозу </Text>
                         <Text>{item.thrash_type}</Text>
-                        <Text style={styles.text}>Адресс доставки</Text>
+                        <Text style={styles.text}>Адрес доставки</Text>
                         <Text>{item.delivery_address}</Text>
                         {item.status===modeStatusWait?(
                             <TouchableOpacity style={styles.button} onPress={()=> handleGetOrder(item)}>
