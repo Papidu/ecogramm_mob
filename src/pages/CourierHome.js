@@ -121,7 +121,7 @@ export default function CourierHome() {
             <View style={styles.container}>
                 <View>
                     <Text style={styles.date}>{date}</Text>
-                    {/* <Text style={styles.text}>Адрес</Text> */}
+                    <Text style={styles.text}>Адрес</Text>
                     <Text style={styles.address}>{item.delivery_address}</Text>
                     <Text style={styles.text}>Заказчик</Text>
                     <Text>{item.user_name || 'Неизвестно'}</Text>
@@ -130,8 +130,8 @@ export default function CourierHome() {
                     {/* <Text style={styles.text}>Дата заявки</Text> */}
                     <Text style={styles.icon}>
                     {item.thrash_type === "Макулатура" ?
-                        <Entypo name="text-document" color='#13818D' style={styles.icon} size={50}/>
-                        : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={50} />}
+                        <Entypo name="text-document" color='#13818D' style={styles.icon} size={45}/>
+                        : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={45} />}
                     </Text>
                     <Text style={[item.status === 'в ожидании' ? styles.textStatusGold : styles.textStatusGreen]}>Заказ {item.status.toLowerCase()}</Text>
                     {item.status === modeStatusWait ? (
@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
         color: '#363636',
         fontSize: 22,
         textDecorationLine: 'underline',
-        lineHeight: 40,
-        marginVertical: 10,
+        lineHeight: 30,
+        marginBottom: 10,
     },
     button: {
         flexDirection: 'row',

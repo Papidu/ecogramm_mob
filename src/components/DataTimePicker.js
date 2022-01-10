@@ -47,15 +47,17 @@ export default function DataTimePickers(props) {
             <TouchableWithoutFeedback onPress={showDatepicker}>
                 <View style={styles.dateInput}>
                     <Text style={styles.outputText}> {outputText} </Text>
-                    <AntDesign name="calendar" size={24} color="black"  />
-                    {/*TODO: перенести к правой стороне блока иконку*/}
+                    <AntDesign name="calendar" size={24} color="black" />
+                    {/*TODO: в дате рождения не показывать время*/}
                 </View>
             </TouchableWithoutFeedback>
             {
                 needTime ? (
-                    <TouchableOpacity onPress={showTimepicker} style={styles.button}>
-                        <Text style={styles.buttonText}>Укажите время</Text>
-                        <Ionicons name="time-outline" size={24} color="black" />
+                    <TouchableOpacity onPress={showTimepicker}>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>Укажите время</Text>
+                            <Ionicons name="time-outline" size={24} color="black" />
+                        </View>
                     </TouchableOpacity>
                 ) : (<></>)
             }
@@ -91,33 +93,25 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderRadius: 15,
         flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     outputText: {
         fontSize: 18,
     },
     buttonText: {
         color: 'white',
-        margin: 10,
         fontSize: 18,
     },
     button: {
         flexDirection: 'row',
-        justifyContent: 'center',
         alignItems: 'center',
         width: 240,
-        marginTop: 10,
-        borderRadius: 20,
+        marginTop: 20,
+        height: 50,
+        borderRadius: 30,
+        elevation: 5,
         backgroundColor: '#008CBA',
+        justifyContent: 'space-between',
+        paddingHorizontal: 18,
     },
-    // button: {
-    //     flexDirection: 'row',
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     width: 240,
-    //     marginTop: 20,
-    //     height: 50,
-    //     borderRadius: 30,
-    //     borderWidth: 1,
-    //     backgroundColor: '#4A8800',
-    // },
 });

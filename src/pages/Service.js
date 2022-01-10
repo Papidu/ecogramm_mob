@@ -8,8 +8,8 @@ import { Dimensions } from "react-native"
 const window_ = Dimensions.get('window');
 
 export default function Service() {
-    const [textAddres, onChangeTextAddres] = useState("");
-    const [userPhone, onChangeUserPhonr] = useState("8 (978) 876-10-33");
+    const [textAddress, onChangeTextAddress] = useState("");
+    const [userPhone, onChangeUserPhone] = useState("8 (978) 876-10-33");
     const [selectTypeGarbage, setselectTypeGarbage] = useState(1)
     const [dataTimeText, setDataTimeText] = useState(new Date());
     const createAlertMSG = (isOK) => {
@@ -59,17 +59,17 @@ export default function Service() {
 
     function onSubmit() {
         let dataForm = {}
-        if (textAddres === '') {
+        if (textAddress === '') {
             alert('Укажите, пожалуйста, адрес');
         }
         if (dataTimeText === '') {
             alert('Укажите, пожалуйста, дату и время');
         }
-        if (textAddres !== '' && dataTimeText !== '') {
+        if (textAddress !== '' && dataTimeText !== '') {
             dataForm = {
                 "courier_phone": "8 (000) 000-00-00",
                 "user_phone": userPhone,// 8 (978) 806-10-44,
-                "address": textAddres,
+                "address": textAddress,
                 "create_date": dataTimeText,
                 "thrash_types": [selectTypeGarbage === 1 ? "Макулатура" : "Стекло"],
                 "price": 200
@@ -80,100 +80,78 @@ export default function Service() {
     }
 
     return (
-        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1}}>
-            <View style={styles.content}>
+        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.container}>
                 <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeTextAddres}
-                    value={textAddres}
+                    style={styles.textInput}
+                    onChangeText={onChangeTextAddress}
+                    value={textAddress}
                     placeholder='Укажите адрес'
                 />
-                <View >
-                    <Text style={styles.text}>Выберите, что хотите сдать:</Text>
-                    <View style={styles.containerItems}>
-                        <TouchableOpacity style={styles.item} onPress={() => setselectTypeGarbage(1)}>
-                            <Entypo name="text-document" size={40} color={selectTypeGarbage === 1 ? "brown" : "black"} />
-                            <Text>Mакулатура</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.item} onPress={() => setselectTypeGarbage(2)}>
-                            <FontAwesome5 name="wine-bottle" size={40} color={selectTypeGarbage === 2 ? "brown" : "black"} />
-                            <Text>Стекло</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                    <Text style={styles.text}>Выберите дату</Text>
-                        <DataTimePickers setDataTimeText={setDataTimeText} />
-                    </View>
-                    <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
-                        <Text style={styles.textInfoInput}>
-                            Ваш номер телефона
-                        </Text>
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='phone-pad'
-                            value={userPhone}
-                            onChangeText={onChangeUserPhonr}
-                        />
-                    </View>
-                    <View style={styles.containerItems}>
-                        <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
-                            <Text style={styles.textButton}>Оставить заявку</Text>
-                        </TouchableOpacity>
-                    </View>
-
+            </View>
+            <View style={styles.container}>
+                <Text style={styles.text}>Выберите, что хотите сдать:</Text>
+                <View style={styles.containerItems}>
+                    <TouchableOpacity style={styles.itemToRecycle} onPress={() => setselectTypeGarbage(1)}>
+                        <Entypo name="text-document" size={40} color={selectTypeGarbage === 1 ? "brown" : "black"} />
+                        <Text>Mакулатура</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.itemToRecycle} onPress={() => setselectTypeGarbage(2)}>
+                        <FontAwesome5 name="wine-bottle" size={40} color={selectTypeGarbage === 2 ? "brown" : "black"} />
+                        <Text>Стекло</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
+            <View style={styles.container}>
+                <Text style={styles.text}>Выберите дату</Text>
+                <DataTimePickers setDataTimeText={setDataTimeText} />
+            </View>
+            <View style={styles.container}>
+                <Text style={styles.text}>
+                    Ваш номер телефона
+                </Text>
+                <TextInput
+                    style={styles.textInput}
+                    keyboardType='phone-pad'
+                    value={userPhone}
+                    onChangeText={onChangeUserPhone}
+                />
+            </View>
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
+                    <Text style={styles.buttonText}>Оставить заявку</Text>
+                </TouchableOpacity>
+            </View>
+
+
         </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
-    textInput: {
-        height: 50,
-        width: 300,
+    container: {
         marginVertical: 10,
-        paddingHorizontal: 12,
-        fontSize: 16,
-        borderWidth: 1.5,
-        borderRadius: 15,
     },
     text: {
         paddingHorizontal: 20,
         padding: 10,
         fontSize: 20,
     },
-    textInfoInput: {
-        marginHorizontal: 20,
-        padding: 10,
-        fontSize: 20,
-    },
     textInput: {
-        height: 40,
-        width: 240,
-        marginHorizontal: 20,
-        paddingLeft: 10,
-        paddingTop: 5,
-        fontSize: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 2,
+        height: 50,
+        width: 300,
+        paddingHorizontal: 12,
+        fontSize: 16,
+        borderWidth: 1.5,
+        borderRadius: 15,
         // backgroundColor:'red'   
     },
     containerItems: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginHorizontal: 16,
-        marginBottom: 20,
     },
-    item: {
+    itemToRecycle: {
         marginLeft: 5,
         width: 150,
         borderStyle: 'solid',
@@ -185,14 +163,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 250,
-        marginHorizontal: 10,
-        marginTop: 10,
-        borderRadius: 10,
-        backgroundColor: '#4CAF50',
+        width: 240,
+        height: 50,
+        borderRadius: 30,
+        elevation: 4,
+        backgroundColor: '#4A8800',
     },
-    textButton: {
-        margin: 10,
-        fontSize: 20,
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
     },
 });
