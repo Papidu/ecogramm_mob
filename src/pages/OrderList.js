@@ -42,7 +42,6 @@ export default function OrderList() {
 
     return (
         <View>
-            <NavBar title='Мои заказы'/>
             <View style={{marginTop: 10,height:HEIGHT /1.3} }> 
                 {
                     orderData.length === 0?(

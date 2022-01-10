@@ -9,7 +9,7 @@ export default function EntryForm() {
     const navigation = useNavigation()
     const handleBaseUser =() =>{        
         setModeApp('base_user')
-        navigation.replace('Tabs');
+        navigation.navigate('Tabs');
     }
 
     const handleLoginCourier =() =>{
@@ -25,11 +25,11 @@ export default function EntryForm() {
                     <NavBar title='Войти в систему как'/>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.button} onPress={()=> handleBaseUser()}>
-                            <MaterialIcons name="person" size={24} color="black" />
+                            <MaterialIcons name="person" size={24} color="white" style={styles.inlineIcons}/>
                             <Text style={styles.buttonText}>Пользователь</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={()=> handleLoginCourier()}>
-                            <MaterialIcons name="shopping-bag" size={24} color="black" style={styles.inlineIcons}/>
+                            <MaterialIcons name="shopping-bag" size={24} color="white" style={styles.inlineIcons}/>
                             <Text style={styles.buttonText}>Курьер</Text>
                         </TouchableOpacity>
                     </View>
@@ -45,6 +45,12 @@ export default function EntryForm() {
 
 
 const styles = StyleSheet.create({
+    logo: {
+        width: 305,
+        height: 159,
+        marginVertical: 15,
+        alignSelf: 'center',
+    },
     buttonContainer:{
         marginTop: 50,
         alignItems: 'center',
@@ -53,24 +59,24 @@ const styles = StyleSheet.create({
     button: {
         margin: 30,
         paddingLeft: 20,
-        height: 100,
+        height: 60,
         width: 240,
         alignItems: 'center',
         justifyContent: 'flex-start',
         borderWidth: 1,  
-        borderRadius: 20, 
-        backgroundColor: '#32b3db',
+        borderRadius: 40, 
+        backgroundColor: '#4A8800',
         flexDirection: 'row',
     },
     buttonText: {
         fontSize: 20,
         fontWeight: 'bold',
-        paddingLeft: 10
+        paddingLeft: 10,
+        color: 'white',
+        textShadowColor: 'black',
     },
-    logo: {
-        width: 305,
-        height: 159,
-        marginVertical: 15,
-        alignSelf: 'center',
-    },
+    inlineIcons: {
+        padding: 4,
+        textAlign: 'left',
+    }
   });

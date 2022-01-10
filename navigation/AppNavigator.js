@@ -21,7 +21,6 @@ export const Navigator = () => {
         return (
             <Tabs.Navigator
                 screenOptions={{
-                    headerShown:false,
                     tabBarStyle: {
                     height: 60,
                     position: 'absolute',
@@ -34,20 +33,20 @@ export const Navigator = () => {
                 }}                
             >
                 <Tabs.Screen
-                    name="Service" 
+                    name="Создать заявку на сбор мусора" 
                     component={Service}
                     options={{
-                        tabBarLabel: 'Service',
+                        tabBarLabel: 'Создать заявку',
                         tabBarIcon: ({color,size, focused}) => (<MaterialIcons name="delivery-dining" size={24} color={focused ? 'green': 'gray'} /> ),
                     }}  
                 />
                 <Tabs.Screen 
-                    name="Orders"
+                    name="Ваши заявки"
                     component={OrderList}                    
                     options={{
                         tabBarVisible: true,
                         // tabBarVisible: false,
-                        tabBarLabel: 'Orders',
+                        tabBarLabel: 'Ваши заявки',
                         tabBarIcon: ({color,size, focused}) => (<Ionicons name="documents" size={24} color={focused ? 'green': 'gray'} /> ),
                     }}
                 />

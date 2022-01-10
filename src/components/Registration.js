@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native'
-// import NavBar from './NavBar'
 import { Dimensions } from "react-native"
 import { useNavigation } from '@react-navigation/native'
 import DataTimePickers from './DataTimePicker';
@@ -22,12 +21,13 @@ export default function Registration() {
         if(!isOK)
         {
             Alert.alert(
-                "Заяка не сформирована",
+                "Заявка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
                 [
                     { text: "OK", onPress: () => console.log("Not okey") }
                 ]
             );
+            navigation.navigate('Регистрация')
         }
     }
 
@@ -77,7 +77,7 @@ export default function Registration() {
             }
             console.log(dataForm);
             postAuthToken(dataForm);
-            navigation.replace('CourierHome',{back: false})
+            navigation.navigate('CourierHome')
         }
     }
 

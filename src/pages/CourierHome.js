@@ -147,8 +147,7 @@ export default function CourierHome() {
 
     return (
         <View>
-            <NavBar title='CourierHome'/>
-            <View style={{marginTop: 5,height:580}}> 
+            <NavBar title='Заказы'/>
                 <FlatList
                     data={orderData}
                     keyExtractor={(item) => item.id.toString()}
@@ -158,7 +157,6 @@ export default function CourierHome() {
                         />}
                     renderItem={({item}) =><OrderItem item={item} />}
                 />
-            </View>
         </View>
     )
 }

@@ -18,15 +18,15 @@ export default function Service() {
         if(isOK)
         {
             Alert.alert(
-                "Заяка сформирована",
-                "Заяка успешно сформирована, пожалуйста, ожидайте курьера",
+                "Заявка сформирована",
+                "Заявка успешно сформирована, пожалуйста, ожидайте курьера",
                 [
                     { text: "OK", onPress: () => console.log("OK Pressed") }
                 ]
             );
         }else{
             Alert.alert(
-                "Заяка не сформирована",
+                "Заявка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
                 [
                     { text: "OK", onPress: () => console.log("Not okey") }
@@ -83,7 +83,6 @@ export default function Service() {
 
     return (
         <View>            
-            <NavBar title='Заявка на сбор мусора'/>
             <ScrollView>
                 <View style={styles.content}>
                     <TextInput

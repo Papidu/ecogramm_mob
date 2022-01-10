@@ -12,7 +12,7 @@ export default function Login() {
     const createAlertMSG = (isOK) => {
         if (isOK) {
             Alert.alert(
-                "Заяка не сформирована",
+                "Заявка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
                 [
                     { text: "OK", onPress: () => console.log("Not okey") }
@@ -60,7 +60,7 @@ export default function Login() {
             }
             // console.log(dataForm);
             postAuthToken(dataForm);
-            navigation.replace('CourierHome', { back: false })
+            navigation.navigate('CourierHome')
         }
     }
 
