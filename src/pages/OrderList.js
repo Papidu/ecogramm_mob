@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { View, Text, FlatList,ScrollView,StyleSheet, RefreshControl} from 'react-native'
-import NavBar from '../components/NavBar'
 import { HEIGHT } from '../../constants';
 
 

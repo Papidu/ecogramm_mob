@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { Dimensions } from "react-native"
 import { useNavigation } from '@react-navigation/native'
 import DataTimePickers from './DataTimePicker';
@@ -11,15 +11,13 @@ export default function Registration() {
     const [textPhoneNumber, onChangePhoneNumber] = useState("88425555555");
     const [textPassword, onChangePassword] = useState("55");
     const [textUserName, onChangeUserName] = useState("neo");
-    const [textName, onChangeName] = useState("Кирилл");setOnlyData // setOnlyData в этой строке нужна?
+    const [textName, onChangeName] = useState("Кирилл"); setOnlyData // setOnlyData в этой строке нужна?
     const [textSurname, onChangeSurname] = useState("Кудряшов");
     const [textBirthday, onChangeBirthday] = useState("1996-05-03");
     const [textOnlydata, setOnlyData] = useState("1996-05-03");
     const navigation = useNavigation()
-    const createAlertMSG = (isOK) =>
-    {
-        if(!isOK)
-        {
+    const createAlertMSG = (isOK) => {
+        if (!isOK) {
             Alert.alert(
                 "Заявка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
@@ -31,45 +29,46 @@ export default function Registration() {
         }
     }
 
-    const postAuthToken= async (data) =>{
+    const postAuthToken = async (data) => {
         const url = 'http://vm-fd0ab233.na4u.ru:8080/register';
-        const header = {            
-            method: 'POST', 
+        const header = {
+            method: 'POST',
             body: JSON.stringify(data),
             // credentials: 'include',
             headers: {
-            'Content-Type': 'application/json'
-        }}    
-        try{
+                'Content-Type': 'application/json'
+            }
+        }
+        try {
             const response = await fetch(url, header);
             const json = await response.json();
             const status = response.status
-            createAlertMSG(status===201)
+            createAlertMSG(status === 201)
             console.log(json, status)
-        } catch (e){
+        } catch (e) {
             console.log('Ошибка ', e)
         }
     }
-    function isInputEmpty(str, msg){
-        if(str === ''){
-            alert(`Укажите пожалуйста ${msg}`)
+    function isInputEmpty(str, msg) {
+        if (str === '') {
+            Alert.alert('Необходимо заполнить обязательное поле', `Укажите, пожалуйста, ${msg}`)
             return true
         }
         return false
     }
-    
-    function onSubmit(){
+
+    function onSubmit() {
         let dataForm = {}
-        if(!isInputEmpty(textPhoneNumber,'Ваш номер телефона') &&
-            !isInputEmpty(textPassword,'Ваш пароль') &&
-            !isInputEmpty(textName,'Ваше имя') &&
-            !isInputEmpty(textUserName,'Ваш ник') &&
-            !isInputEmpty(textSurname,'Вашу фамилию') &&
-            !isInputEmpty(textBirthday,'Вашу дату рождения')
-        ){
+        if (!isInputEmpty(textPhoneNumber, 'Ваш номер телефона') &&
+            !isInputEmpty(textPassword, 'Ваш пароль') &&
+            !isInputEmpty(textName, 'Ваше имя') &&
+            !isInputEmpty(textUserName, 'Ваш никнейм') &&
+            !isInputEmpty(textSurname, 'Вашу фамилию') &&
+            !isInputEmpty(textBirthday, 'Вашу дату рождения')
+        ) {
             dataForm = {
                 "phone_number": textPhoneNumber,
-                "password": textPassword, 
+                "password": textPassword,
                 "username": textUserName,
                 "name": textName,
                 "surname": textSurname,
@@ -83,10 +82,11 @@ export default function Registration() {
 
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center'}}> 
+        {/* тут либо прокручивание ScrollView, либо flex: 1 */}
             <View>
                 <TextInput
-                    placeholder='Введите Ваш номер телефона'
+                    placeholder='Ваш номер телефона'
                     style={styles.textInput}
                     onChangeText={onChangePhoneNumber}
                     value={textPhoneNumber}
@@ -112,7 +112,7 @@ export default function Registration() {
             </View>
             <View>
                 <TextInput
-                    placeholder='Введите ваше имя'
+                    placeholder='Ваше имя'
                     style={styles.textInput}
                     onChangeText={onChangeName}
                     value={textName}
@@ -120,77 +120,60 @@ export default function Registration() {
             </View>
             <View>
                 <TextInput
-                    placeholder='Введите вашу фамилию'
+                    placeholder='Ваша фамилия'
                     style={styles.textInput}
                     onChangeText={onChangeSurname}
                     value={textSurname}
                 />
             </View>
             <View>
-                <Text>Укажите Вашу дату рождения</Text>
-                <DataTimePickers 
-                    needTime={false} 
+                <Text style={{marginBottom:7, paddingLeft: 5}}>Дата рождения</Text>
+                <DataTimePickers
+                    needTime={false}
                     setDataTimeText={onChangeBirthday}
                     minimumDate={new Date(1900, 1, 1)}
                     setOnlydata={onChangeBirthday}
                 />
-            </View>            
-            <View style={styles.containerItems}>
-                <TouchableOpacity style={styles.button} onPress={()=> onSubmit()}>
-                    <Text style={styles.textButton}>Зарегистрироваться</Text>
+            </View>
+            <View style={styles.containerItem}>
+                <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
+                    <Text style={styles.buttonText}>Зарегистрироваться</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create({
-    container:{
-        // backgroundColor: 'gold',
-        height:window_.height / 1.2,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textInput:{
-        height: 40,
+    textInput: {
+        height: 50,
         width: 300,
         marginVertical: 10,
-        marginHorizontal: 16,
-        paddingLeft: 10,
-        paddingTop: 5,
-        fontSize: 15,
-        justifyContent:'center',
-        alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 2,     
-        // backgroundColor:'red'   
-    },containerItems:{
+        paddingHorizontal: 12,
+        fontSize: 16,
+        borderWidth: 1.5,
+        borderRadius: 15,
+    },
+    containerItem: {
         flexDirection: 'row',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
         marginHorizontal: 16,
         marginBottom: 20,
     },
-    item:{
-        marginLeft: 5,
-        width: 150,
-        borderStyle: 'solid',
-        borderWidth: 2,
-        padding: 5,
-        alignItems:'center'
-    },
-    button:{
+    button: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 250,
-        marginHorizontal: 10,
-        marginTop: 10,
-        borderRadius: 10,
-        backgroundColor: '#4CAF50',
+        width: 240,
+        marginTop: 20,
+        height: 50,
+        borderRadius: 30,
+        elevation: 5,
+        backgroundColor: '#4A8800',
     },
-    textButton: {
-        margin: 10,
-        fontSize: 20,
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
     },
-  });
+});

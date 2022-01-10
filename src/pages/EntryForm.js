@@ -1,39 +1,40 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Image, View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import NavBar from '../components/NavBar'
 import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function EntryForm() {
     const [modeApp, setModeApp] = useState('base_user')
     const navigation = useNavigation()
-    const handleBaseUser =() =>{        
+    const handleBaseUser = () => {
         setModeApp('base_user')
         navigation.navigate('Tabs');
     }
 
-    const handleLoginCourier =() =>{
-        navigation.navigate('AuthForm', {screen: 'Авторизация'});
+    const handleLoginCourier = () => {
+        navigation.navigate('AuthForm', { screen: 'Авторизация' });
     }
 
     return (
         <View>
-            <Image source={require('../../assets/icon.png')} style={styles.logo}/>
+            <Image source={require('../../assets/icon.png')} style={styles.logo} />
             {
-                modeApp === 'base_user'? (
-                <View>
-                    <NavBar title='Войти в систему как'/>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={()=> handleBaseUser()}>
-                            <MaterialIcons name="person" size={24} color="white" style={styles.inlineIcons}/>
-                            <Text style={styles.buttonText}>Пользователь</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={()=> handleLoginCourier()}>
-                            <MaterialIcons name="shopping-bag" size={24} color="white" style={styles.inlineIcons}/>
-                            <Text style={styles.buttonText}>Курьер</Text>
-                        </TouchableOpacity>
+                modeApp === 'base_user' ? (
+                    <View>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.titleText}>Войти в систему как </Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button} onPress={() => handleBaseUser()}>
+                                <MaterialIcons name="person" size={24} color="white" style={styles.inlineIcons} />
+                                <Text style={styles.buttonText}>Пользователь</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.button, { backgroundColor: "#6a751d" }]} onPress={() => handleLoginCourier()}>
+                                <MaterialIcons name="shopping-bag" size={24} color="white" style={styles.inlineIcons} />
+                                <Text style={styles.buttonText}>Курьер</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
                 ) : (
                     console.log('Необработанное состояние пользователя', modeApp)
                 )
@@ -45,13 +46,23 @@ export default function EntryForm() {
 
 
 const styles = StyleSheet.create({
+    titleContainer: {
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    titleText: {
+        color: 'black',
+        fontSize: 22,
+        fontWeight: 'bold',
+    },
     logo: {
         width: 305,
         height: 159,
-        marginVertical: 15,
+        marginVertical: 45,
         alignSelf: 'center',
     },
-    buttonContainer:{
+    buttonContainer: {
         marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,20 +74,18 @@ const styles = StyleSheet.create({
         width: 240,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        borderWidth: 1,  
-        borderRadius: 40, 
+        borderRadius: 30,
         backgroundColor: '#4A8800',
         flexDirection: 'row',
+        elevation: 5,
     },
     buttonText: {
         fontSize: 20,
         fontWeight: 'bold',
         paddingLeft: 10,
         color: 'white',
-        textShadowColor: 'black',
     },
     inlineIcons: {
         padding: 4,
-        textAlign: 'left',
     }
-  });
+});

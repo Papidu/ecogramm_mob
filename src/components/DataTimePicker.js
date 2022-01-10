@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Button, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,7 +12,7 @@ export default function DataTimePickers(props) {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-    const [text, setText] = useState(new Date().toLocaleDateString().replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '-') + ' ' + new Date().toLocaleTimeString());
+    const [outputText, setText] = useState(new Date().toLocaleDateString().replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '-') + ' ' + new Date().toLocaleTimeString());
 
 
     const onChange = (event, selectedDate) => {
@@ -28,7 +28,6 @@ export default function DataTimePickers(props) {
         }
         setText(formatDate + ' ' + formatTime);
         setDataTimeText(formatDate + ' ' + formatTime)
-        // console.log(formatDate+ ' ' + formatTime+ '\n'+ new Date(currentDate))
     };
 
     const showMode = (currentMode) => {
@@ -44,20 +43,18 @@ export default function DataTimePickers(props) {
         showMode('time');
     };
     return (
-        <View style={styles.containerItems}>
+        <View style={styles.container}>
             <TouchableWithoutFeedback onPress={showDatepicker}>
-                <Text style={styles.text}>
-                    {text}
-                </Text>
-                </TouchableWithoutFeedback>
-                <TouchableOpacity onPress={showDatepicker} style={styles.item}>
-                    <Text style={styles.textData}>Укажите дату</Text>
-                    <AntDesign name="calendar" size={24} color="black" />
-                </TouchableOpacity>
+                <View style={styles.dateInput}>
+                    <Text style={styles.outputText}> {outputText} </Text>
+                    <AntDesign name="calendar" size={24} color="black"  />
+                    {/*TODO: перенести к правой стороне блока иконку*/}
+                </View>
+            </TouchableWithoutFeedback>
             {
                 needTime ? (
-                    <TouchableOpacity onPress={showTimepicker} style={styles.item}>
-                        <Text style={styles.textData}>Укажите время</Text>
+                    <TouchableOpacity onPress={showTimepicker} style={styles.button}>
+                        <Text style={styles.buttonText}>Укажите время</Text>
                         <Ionicons name="time-outline" size={24} color="black" />
                     </TouchableOpacity>
                 ) : (<></>)
@@ -82,37 +79,45 @@ export default function DataTimePickers(props) {
 
 
 const styles = StyleSheet.create({
-    textData: {
-        margin: 10,
-        fontSize: 20,
-    },
-    text: {
-        height: 40,
-        width: 240,
-        margin: 10,
-        paddingLeft: 10,
-        paddingTop: 5,
-        fontSize: 20,
+    container: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 2,
     },
-    containerItems: {
-        justifyContent: 'space-around',
+    dateInput: {
+        height: 40,
+        width: 300,
+        paddingHorizontal: 12,
         alignItems: 'center',
-        // backgroundColor: 'gold',
-        marginHorizontal: 16,
-        marginBottom: 20,
+        borderWidth: 1.5,
+        borderRadius: 15,
+        flexDirection: 'row',
     },
-    item: {
+    outputText: {
+        fontSize: 18,
+    },
+    buttonText: {
+        color: 'white',
+        margin: 10,
+        fontSize: 18,
+    },
+    button: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 250,
-        marginHorizontal: 10,
-        marginTop: 5,
-        borderRadius: 10,
+        width: 240,
+        marginTop: 10,
+        borderRadius: 20,
         backgroundColor: '#008CBA',
-    }
+    },
+    // button: {
+    //     flexDirection: 'row',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     width: 240,
+    //     marginTop: 20,
+    //     height: 50,
+    //     borderRadius: 30,
+    //     borderWidth: 1,
+    //     backgroundColor: '#4A8800',
+    // },
 });

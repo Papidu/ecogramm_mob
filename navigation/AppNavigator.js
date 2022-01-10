@@ -108,9 +108,9 @@ export const Navigator = () => {
         >   
             <Stack.Screen name="EntryForm" component={EntryForm} />
             <Stack.Screen name="AuthForm" component={AuthStack} />
-            {/* <Stack.Screen name= {'Tabs2'} component={TabStack2} /> */}
-            <Stack.Screen name="CourierHome" component={CourierHome} />
-            <Stack.Screen name= {'Tabs'} component={TabStack} />
+            <Stack.Screen name="CourierHome" component={CourierHome} options={{headerShown: true, title: "Заказы на вынос"}} />
+            {/* костыль выше*/}
+            <Stack.Screen name= "Tabs" component={TabStack} />
             <Stack.Screen name="Service" component={Service} />
             <Stack.Screen name="OrderList" component={OrderList} />
             

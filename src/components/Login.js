@@ -15,13 +15,13 @@ export default function Login() {
                 "Заявка не сформирована",
                 "Что-то пошло не так, попробуйте повторить позже",
                 [
-                    { text: "OK", onPress: () => console.log("Not okey") }
+                    { text: "OK", onPress: () => console.log("Not okay") }
                 ]
             );
         }
     }
-    const handleRegistrationCourier =() =>{
-        navigation.navigate('AuthForm', {screen: 'Регистрация'});
+    const handleRegistrationCourier = () => {
+        navigation.navigate('AuthForm', { screen: 'Регистрация' });
     }
 
     const postAuthToken = async (data) => {
@@ -48,17 +48,16 @@ export default function Login() {
     function onSubmit() {
         let dataForm = {}
         if (textLogin === '') {
-            alert('Укажите, пожалуйста, логин или номер телефона');
+            Alert.alert('Не удаётся войти.', 'Пожалуйста, проверьте правильность введённых данных');
         }
         if (textPassword === '') {
-            alert('Укажите, пожалуйста, пароль');
+            Alert.alert('Не удаётся войти', 'Пожалуйста, проверьте правильность введённых данных');
         }
         if (textLogin !== '' && textPassword !== '') {
             dataForm = {
                 "username": "mikle",
                 "password": 1
             }
-            // console.log(dataForm);
             postAuthToken(dataForm);
             navigation.navigate('CourierHome')
         }
@@ -67,9 +66,9 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <View>
+            <View style={styles.inputField}>
                 <TextInput
-                    placeholder='Введите логин или номер телефона'
+                    placeholder='Логин или номер телефона'
                     style={styles.textInput}
                     onChangeText={onChangeTextLogin}
                     value={textLogin}
@@ -77,20 +76,18 @@ export default function Login() {
             </View>
             <View>
                 <TextInput
-                    placeholder='Введите пароль'
+                    placeholder='Пароль'
                     style={styles.textInput}
                     onChangeText={onChangePassword}
                     secureTextEntry={true}
                     value={textPassword}
                 />
             </View>
-            <View style={styles.containerItems}>
-                <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
-                    <Text style={styles.textButton}>Войти</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
+                <Text style={styles.buttonText}>Войти</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => handleRegistrationCourier()}>
-                <Text style={{textDecorationLine: "underline", fontSize: 17, marginTop: 15}}>Ещё не зарегистрированы?</Text>
+                <Text style={{ textDecorationLine: "underline", fontSize: 17, marginTop: 15 }}>Ещё не зарегистрированы?</Text>
             </TouchableOpacity>
         </View>
     )
@@ -99,51 +96,34 @@ export default function Login() {
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: 'gold',
+        flex: 1,
         height: window_.height / 1.2,
         alignItems: 'center',
         justifyContent: 'center',
     },
     textInput: {
-        height: 40,
+        height: 50,
         width: 300,
         marginVertical: 10,
-        marginHorizontal: 16,
-        paddingLeft: 10,
-        paddingTop: 5,
-        fontSize: 15,
+        paddingHorizontal: 12,
+        fontSize: 16,
         justifyContent: 'center',
-        alignItems: 'center',
-        borderStyle: 'solid',
-        borderWidth: 2,
-        // backgroundColor:'red'   
-    },
-    containerItems: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginHorizontal: 16,
-        marginBottom: 20,
-    },
-    item: {
-        marginLeft: 5,
-        width: 150,
-        borderStyle: 'solid',
-        borderWidth: 2,
-        padding: 5,
-        alignItems: 'center'
+        borderWidth: 1.5,
+        borderRadius: 15,
     },
     button: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 250,
-        marginHorizontal: 10,
-        marginTop: 10,
-        borderRadius: 10,
-        backgroundColor: '#4CAF50',
+        width: 240,
+        marginVertical: 20,
+        height: 50,
+        borderRadius: 30,
+        elevation: 5,
+        backgroundColor: '#4A8800',
     },
-    textButton: {
-        margin: 10,
+    buttonText: {
+        color: 'white',
         fontSize: 20,
     },
 });
