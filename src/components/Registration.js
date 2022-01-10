@@ -82,8 +82,7 @@ export default function Registration() {
 
 
     return (
-        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center'}}> 
-        {/* тут либо прокручивание ScrollView, либо flex: 1 */}
+        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1}}> 
             <View>
                 <TextInput
                     placeholder='Ваш номер телефона'

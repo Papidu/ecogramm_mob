@@ -80,13 +80,13 @@ export default function Service() {
     }
 
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1}}>
             <View style={styles.content}>
                 <TextInput
                     style={styles.input}
                     onChangeText={onChangeTextAddres}
                     value={textAddres}
-                    placeholder='Укажите адрес доставки'
+                    placeholder='Укажите адрес'
                 />
                 <View >
                     <Text style={styles.text}>Выберите, что хотите сдать:</Text>
@@ -101,6 +101,7 @@ export default function Service() {
                         </TouchableOpacity>
                     </View>
                     <View>
+                    <Text style={styles.text}>Выберите дату</Text>
                         <DataTimePickers setDataTimeText={setDataTimeText} />
                     </View>
                     <View style={{ justifyContent: 'space-around', alignItems: 'center' }}>
@@ -116,7 +117,7 @@ export default function Service() {
                     </View>
                     <View style={styles.containerItems}>
                         <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
-                            <Text style={styles.textButton}>Заказать</Text>
+                            <Text style={styles.textButton}>Оставить заявку</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -134,12 +135,17 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
     },
-    content: {
-        height: window_.height/1.2,
+    textInput: {
+        height: 50,
+        width: 300,
+        marginVertical: 10,
+        paddingHorizontal: 12,
+        fontSize: 16,
+        borderWidth: 1.5,
+        borderRadius: 15,
     },
     text: {
-        marginHorizontal: 20,
-        marginBottom: 20,
+        paddingHorizontal: 20,
         padding: 10,
         fontSize: 20,
     },

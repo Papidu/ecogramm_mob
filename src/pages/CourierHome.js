@@ -130,8 +130,8 @@ export default function CourierHome() {
                     {/* <Text style={styles.text}>Дата заявки</Text> */}
                     <Text style={styles.icon}>
                     {item.thrash_type === "Макулатура" ?
-                        <Entypo name="text-document" color='#13818D' style={styles.icon} size={80}/>
-                        : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={80} />}
+                        <Entypo name="text-document" color='#13818D' style={styles.icon} size={50}/>
+                        : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={50} />}
                     </Text>
                     <Text style={[item.status === 'в ожидании' ? styles.textStatusGold : styles.textStatusGreen]}>Заказ {item.status.toLowerCase()}</Text>
                     {item.status === modeStatusWait ? (
