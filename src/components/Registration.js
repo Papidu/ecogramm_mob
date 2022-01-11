@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         borderWidth: 1.5,
         borderRadius: 15,
+        borderColor: "gray",
     },
     containerItem: {
         flexDirection: 'row',

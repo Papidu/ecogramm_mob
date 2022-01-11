@@ -66,7 +66,7 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.inputField}>
+            <View>
                 <TextInput
                     placeholder='Логин или номер телефона'
                     style={styles.textInput}
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1.5,
         borderRadius: 15,
+        borderColor: "gray",
     },
     button: {
         flexDirection: 'row',

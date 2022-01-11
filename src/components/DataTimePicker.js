@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1.5,
         borderRadius: 15,
+        borderColor: "gray",
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
