@@ -118,7 +118,7 @@ export default function CourierHome() {
         moment.locale('ru')
         let date = moment(item.create_date || "1992-01-06").format('DD MMM h:mm')
         return (
-            <View style={styles.container}>
+            <View style={styles.card}>
                 <View>
                     <Text style={styles.date}>{date}</Text>
                     <Text style={styles.text}>Адрес</Text>
@@ -139,7 +139,7 @@ export default function CourierHome() {
                             <Text style={styles.buttonText}>Беру заказ</Text>
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity style={styles.button} onPress={() => handleCancelOrder(item)}>
+                        <TouchableOpacity style={[styles.button, {backgroundColor: '#dc4640'}]} onPress={() => handleCancelOrder(item)}>
                             <Text style={styles.buttonText}>Отмена</Text>
                         </TouchableOpacity>
                     )}
@@ -165,20 +165,18 @@ export default function CourierHome() {
 
 
 const styles = StyleSheet.create({
-    container: {
+    card: {
         flexDirection: 'row',
         marginHorizontal: 10,
         // paddingHorizontal: 16,
-        backgroundColor: '#eee',//'gold',
+        backgroundColor: '#f5fff4',//'gold',
         marginVertical: 3,
         justifyContent: 'space-around',
         borderRadius: 2,
-        borderColor: '#ddd',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 2,
+        borderColor: '#fffff4',
+        elevation:1,
+        shadowColor:"rgb(50,50,50)",
+        shadowOpacity:1,
     },
     date: {
         color: '#535353',
@@ -207,8 +205,8 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         textShadowColor:'#585858',
-        textShadowOffset:{width: 3, height: 3},
-        textShadowRadius:15,
+        textShadowOffset:{width: 1, height: 1},
+        textShadowRadius:10,
     },
     icon: {
         margin: 16,

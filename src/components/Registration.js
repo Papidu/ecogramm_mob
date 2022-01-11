@@ -83,6 +83,7 @@ export default function Registration() {
 
     return (
         <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1}}> 
+            <Text style={styles.titleText}>Создание аккаунта</Text>
             <View>
                 <TextInput
                     placeholder='Ваш номер телефона'
@@ -145,6 +146,12 @@ export default function Registration() {
 
 
 const styles = StyleSheet.create({
+    titleText: {
+        color: 'black',
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     textInput: {
         height: 50,
         width: 300,

@@ -66,6 +66,7 @@ export default function Login() {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.titleText}>Войти, используя учётную запись</Text>
             <View>
                 <TextInput
                     placeholder='Логин или номер телефона'
@@ -100,6 +101,12 @@ const styles = StyleSheet.create({
         height: window_.height / 1.2,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    titleText: {
+        color: 'black',
+        fontSize: 22,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     textInput: {
         height: 50,

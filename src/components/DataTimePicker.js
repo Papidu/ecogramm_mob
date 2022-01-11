@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function DataTimePickers(props) {
@@ -53,12 +54,16 @@ export default function DataTimePickers(props) {
             </TouchableWithoutFeedback>
             {
                 needTime ? (
-                    <TouchableOpacity onPress={showTimepicker}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>Укажите время</Text>
-                            <Ionicons name="time-outline" size={24} color="black" />
-                        </View>
-                    </TouchableOpacity>
+                    <View flexDirection='row'>
+                        <TouchableOpacity onPress={showDatepicker} style={styles.buttonDate}>
+                            <Text style={[styles.buttonText, {letterSpacing: 0.7}]}>Дата </Text>
+                            <MaterialCommunityIcons name="calendar-blank-outline" size={24} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={showTimepicker} style={styles.buttonTime}>
+                            <Text style={styles.buttonText}>Время </Text>
+                            <Ionicons name="time-outline" size={24} color='white' />
+                        </TouchableOpacity>
+                    </View>
                 ) : (<></>)
             }
 
@@ -103,16 +108,29 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
     },
-    button: {
+    buttonDate: {
         flexDirection: 'row',
         alignItems: 'center',
-        width: 240,
-        marginTop: 20,
+        marginTop: 10,
         height: 50,
+        width: 120,
         borderRadius: 30,
         elevation: 5,
         backgroundColor: '#008CBA',
         justifyContent: 'space-between',
         paddingHorizontal: 18,
+    },
+    buttonTime: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+        height: 50,
+        width: 120,
+        borderRadius: 30,
+        elevation: 5,
+        backgroundColor: '#2081a1',
+        justifyContent: 'space-between',
+        paddingHorizontal: 18,
+        marginLeft: 20,
     },
 });

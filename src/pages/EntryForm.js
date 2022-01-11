@@ -22,6 +22,7 @@ export default function EntryForm() {
                 modeApp === 'base_user' ? (
                     <View>
                         <View style={styles.titleContainer}>
+                            <Text style={styles.welcomeMessage}>Добро пожаловать! </Text>
                             <Text style={styles.titleText}>Войти в систему как </Text>
                         </View>
                         <View style={styles.buttonContainer}>
@@ -29,7 +30,8 @@ export default function EntryForm() {
                                 <MaterialIcons name="person" size={24} color="white" style={styles.inlineIcons} />
                                 <Text style={styles.buttonText}>Пользователь</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.button, { backgroundColor: "#6a751d" }]} onPress={() => handleLoginCourier()}>
+                            <TouchableOpacity style={[styles.button, { backgroundColor: "#6a751d" }]} onPress={() => handleLoginCourier()}> 
+                            {/* может изменить? backgroundColor на #88004b */}
                                 <MaterialIcons name="shopping-bag" size={24} color="white" style={styles.inlineIcons} />
                                 <Text style={styles.buttonText}>Курьер</Text>
                             </TouchableOpacity>
@@ -47,9 +49,13 @@ export default function EntryForm() {
 
 const styles = StyleSheet.create({
     titleContainer: {
-        height: 50,
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
+    },
+    welcomeMessage: {
+        marginBottom: 30,
+        color: 'black',
+        fontSize: 20,
     },
     titleText: {
         color: 'black',
@@ -59,11 +65,12 @@ const styles = StyleSheet.create({
     logo: {
         width: 305,
         height: 159,
-        marginVertical: 45,
+        marginTop: 40,
+        marginBottom: 20,
         alignSelf: 'center',
     },
     buttonContainer: {
-        marginTop: 50,
+        marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
     },

@@ -83,10 +83,12 @@ export default function Service() {
         <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.container}>
                 <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, {marginTop: 12}]}
                     onChangeText={onChangeTextAddress}
                     value={textAddress}
                     placeholder='Укажите адрес'
+                    multiline
+                    numberOfLines={2}
                 />
             </View>
             <View style={styles.container}>
@@ -103,7 +105,7 @@ export default function Service() {
                 </View>
             </View>
             <View style={styles.container}>
-                <Text style={styles.text}>Выберите дату</Text>
+                <Text style={styles.text}>Выберите дату и время</Text>
                 <DataTimePickers setDataTimeText={setDataTimeText} />
             </View>
             <View style={styles.container}>
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         width: 150,
         borderStyle: 'solid',
-        borderWidth: 2,
+        borderWidth: 1,
         padding: 5,
         alignItems: 'center'
     },
