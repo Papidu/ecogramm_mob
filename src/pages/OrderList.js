@@ -125,8 +125,8 @@ const OrderItem = (props) => {
                     <Text style={styles.date}>{date}</Text>
                     <Text style={styles.text}>Адрес</Text>
                     <Text style={styles.address}>{item.delivery_address}</Text>
-                    <Text style={{ color: 'black', marginBottom: 10 }}>Заберет {item.courier_name}</Text>
-                    <Text style={{ color: 'blue', textDecorationLine: 'underline'}}>{item.courier_phone_number}</Text>
+                    <Text style={{ color: 'black', marginBottom: 10 }}>Заберет <Text style={{ fontStyle: 'italic' }}>{item.courier_name}</Text> </Text>
+                    <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>{item.courier_phone_number}</Text>
                 </View>
                 <View>
                     <Text style={{ color: 'black' }}>Подготовить к вывозу </Text>
@@ -204,10 +204,10 @@ const styles = StyleSheet.create({
     },
     textStatusGold: {
         color: '#e2be09',
-        fontStyle: 'italic',
+        fontWeight: 'bold',
     },
     textStatusGreen: {
         color: 'green',
-        fontStyle: 'italic',
+        fontWeight: 'bold',
     }
 });
