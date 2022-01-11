@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from 'react'
-import { View, Text,FlatList, RefreshControl, StyleSheet, TouchableOpacity, Alert } from 'react-native'
-import NavBar from '../components/NavBar'
+import React, { useEffect, useState } from 'react'
+import { View, Text, FlatList, RefreshControl, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import moment from 'moment'
+import 'moment/locale/ru'
 
 export default function CourierHome() {
 
@@ -8,87 +11,89 @@ export default function CourierHome() {
     const [refreshing, setrefReshing] = useState(false)
 
 
-    const onRefreshItem =async () =>{
+    const onRefreshItem = async () => {
         setrefReshing(true)
         const url = 'http://vm-fd0ab233.na4u.ru:8080/delivery/requests';
-        const header = {            
+        const header = {
             method: 'POST',
             body: JSON.stringify({}),
             headers: {
-            'Content-Type': 'application/json'
-        }}
-    
-        try{
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
             const response = await fetch(url, header);
             const json = await response.json();
-            const statuss= response.status
+            const status = response.status
             // console.log(json)
             setOrderData(json)
             setrefReshing(false)
             // setOrderData(fakeData)
-        } catch (e){
+        } catch (e) {
             console.log('Ошибка ', e)
-        } finally{
+        } finally {
             setrefReshing(false)
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         onRefreshItem();
     }, [])
 
-    
-    
+
+
 
 
     const OrderItem = (props) => {
         const courierPhone = "8 (978) 806-13-25"
-        const updateStatus =async (data) =>{
+        const updateStatus = async (data) => {
             const url = 'http://vm-fd0ab233.na4u.ru:8080/delivery/requests/update';
-                const header = {            
-                    method: 'POST',
-                    body: JSON.stringify([data]),
-                    headers: {
+            const header = {
+                method: 'POST',
+                body: JSON.stringify([data]),
+                headers: {
                     'Content-Type': 'application/json'
-                }}  
-                // console.log("updateStatus ",data)      
-                try{
-                    const response = await fetch(url, header);
-                    const json = await response.json();
-                    const statuss= response.status;
-                    console.log(statuss)
-                    setrefReshing(true)
-                    return response
-                    
-                    // setOrderData(json)
-                    setrefReshing(false)
-                } catch (e){
-                    console.log('Ошибка ', e)
-                } finally{
-                    setrefReshing(false)
                 }
+            }
+            // console.log("updateStatus ",data)      
+            try {
+                const response = await fetch(url, header);
+                const json = await response.json();
+                const status = response.status;
+                console.log(status)
+                setrefReshing(true)
+                return response
+
+                // setOrderData(json)
+                setrefReshing(false)
+            } catch (e) {
+                console.log('Ошибка ', e)
+            } finally {
+                setrefReshing(false)
+            }
         }
-        async function handleGetOrder(item){
+        async function handleGetOrder(item) {
             const data = {
                 "id_req": item.id,
                 "status": 'В пути',
                 "courier_phone": courierPhone
-            }        
+            }
             const resstatus = await updateStatus(data)
             // console.log('asdasdasdasd\n', resstatus, typeof(resstatus))
-            if(resstatus.status == 200){
+            if (resstatus.status == 200) {
                 setModeStatusWait('В пути')
-            }else{
+            } else {
                 Alert.alert(
-                    '',
+                    'Произошла ошибка',
                     "Что-то пошло не так, попробуйте повторить позже",
                     [
-                        { text: "OK", onPress: () =>  setModeStatusWait('в ожидании') }
+                        { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
                     ]
                 );
             }
         }
-        async function handleCancelOrder(item){
+        async function handleCancelOrder(item) {
             const data = {
                 "id_req": item.id,
                 "status": 'в ожидании',
@@ -96,101 +101,127 @@ export default function CourierHome() {
             }
             const resstatus = await updateStatus(data)
             // console.log('aaaaaa\n', resstatus.status, typeof(resstatus.status))
-            if( resstatus.status == 200){
+            if (resstatus.status == 200) {
                 setModeStatusWait('в ожидании')
-            }else{
+            } else {
                 Alert.alert(
-                    '',
+                    'Произошла ошибка',
                     "Что-то пошло не так, попробуйте повторить позже",
                     [
-                        { text: "OK", onPress: () =>  setModeStatusWait('в ожидании') }
+                        { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
                     ]
                 );
             }
         }
-        const {item} = props
+        const { item } = props
         const [modeStatusWait, setModeStatusWait] = useState('в ожидании')
-        let date =(item.create_date || "1992-01-06").replace('T','\n');
+        moment.locale('ru')
+        let date = moment(item.create_date || "1992-01-06").format('DD MMM h:mm')
         return (
-            <View>
-                <View style={styles.container}> 
-                    <View>
-                        <Text style={styles.text}>Имя заказчика</Text>
-                        <Text>{item.user_name || 'Не назначен'}</Text>
-                        <Text style={styles.text}>Подготовить к вывозу </Text>
-                        <Text>{item.thrash_type}</Text>
-                        <Text style={styles.text}>Адресс доставки</Text>
-                        <Text>{item.delivery_address}</Text>
-                        {item.status===modeStatusWait?(
-                            <TouchableOpacity style={styles.button} onPress={()=> handleGetOrder(item)}>
-                                <Text>Беру заказа</Text>
-                            </TouchableOpacity>
-                        ):(
-                            <TouchableOpacity style={styles.button} onPress={()=> handleCancelOrder(item)}>
-                                <Text>Отмена</Text>
-                            </TouchableOpacity>
-                        )}
-                        
-                    </View>
-                    <View>
-                        <Text style={styles.text}>Имя курьера</Text>
-                        <Text>{item.courier_name}</Text>
-                        <Text style={styles.text}>Дата заявки</Text>
-                        <Text style={{color:'black', fontSize:15}}>{date}</Text>
-                        <Text style={styles.text}>Статус заказа</Text>
-                        <Text style={[item.status==='в ожидании'?styles.textStatusGold: styles.textStatusGreen]}>{item.status}</Text>
-                    </View>
-                </View>           
+            <View style={styles.card}>
+                <View>
+                    <Text style={styles.date}>{date}</Text>
+                    <Text style={styles.text}>Адрес</Text>
+                    <Text style={styles.address}>{item.delivery_address}</Text>
+                    <Text style={styles.text}>Заказчик</Text>
+                    <Text>{item.user_name || 'Неизвестно'}</Text>
+                </View>
+                <View>
+                    <Text style={styles.icon}>
+                        {item.thrash_type === "Макулатура" ?
+                            <Entypo name="text-document" color='#13818D' style={styles.icon} size={45} />
+                            : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={45} />}
+                    </Text>
+                    <Text style={[item.status === 'в ожидании' ? styles.textStatusGold : styles.textStatusGreen]}>Заказ {item.status.toLowerCase()}</Text>
+                    {item.status === modeStatusWait ? (
+                        <TouchableOpacity style={styles.button} onPress={() => handleGetOrder(item)}>
+                            <Text style={styles.buttonText}>Беру заказ</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={[styles.button, { backgroundColor: '#dc4640' }]} onPress={() => handleCancelOrder(item)}>
+                            <Text style={styles.buttonText}>Отмена</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
             </View>
         )
     }
 
     return (
         <View>
-            <NavBar title='CourierHome'/>
-            <View style={{marginTop: 5,height:580}}> 
-                <FlatList
-                    data={orderData}
-                    keyExtractor={(item) => item.id.toString()}
-                    refreshControl={<RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefreshItem}
-                        />}
-                    renderItem={({item}) =><OrderItem item={item} />}
-                />
-            </View>
+            <FlatList
+                data={orderData}
+                keyExtractor={(item) => item.id.toString()}
+                refreshControl={<RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefreshItem}
+                />}
+                renderItem={({ item }) => <OrderItem item={item} />}
+            />
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    container: {
+    card: {
         flexDirection: 'row',
         marginHorizontal: 10,
-        backgroundColor: '#eee',//'gold',
-        marginVertical: 5,
-        borderWidth:1,
+        // paddingHorizontal: 16,
+        backgroundColor: '#f5fff4',//'gold',
+        marginVertical: 3,
         justifyContent: 'space-around',
+        borderRadius: 2,
+        borderColor: '#fffff4',
+        elevation: 1,
+        shadowColor: "rgb(50,50,50)",
+        shadowOpacity: 1,
     },
-    button:{
+    date: {
+        color: '#535353',
+        fontSize: 18,
+        lineHeight: 24,
+        marginVertical: 10,
+    },
+    address: {
+        color: '#363636',
+        fontSize: 22,
+        textDecorationLine: 'underline',
+        lineHeight: 30,
+        marginBottom: 10,
+    },
+    button: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 100,
+        width: 130,
+        height: 30,
         marginVertical: 10,
         borderRadius: 10,
         backgroundColor: '#4CAF50',
+        elevation: 4,
+    },
+    buttonText: {
+        color: 'white',
+        textShadowColor: '#585858',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 10,
+    },
+    icon: {
+        margin: 16,
+        textAlign: "center"
     },
     text: {
         color: 'black',
         fontSize: 15,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
-    textStatusGold:{
-        color:'#e2be09',
+    textStatusGold: {
+        color: '#e2be09',
+        textAlign: 'center'
     },
-    textStatusGreen:{
-        color:'green',
+    textStatusGreen: {
+        color: 'green',
+        textAlign: 'center'
     }
-  });
+});

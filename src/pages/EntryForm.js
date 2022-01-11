@@ -1,50 +1,44 @@
-import React, {useState} from 'react'
-import { View, Text, TouchableOpacity,StyleSheet } from 'react-native'
-import NavBar from '../components/NavBar'
+import React, { useState } from 'react'
+import { Image, View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function EntryForm() {
     const [modeApp, setModeApp] = useState('base_user')
     const navigation = useNavigation()
-    const handleBaseUser =() =>{        
+    const handleBaseUser = () => {
         setModeApp('base_user')
-        navigation.replace('Tabs');
+        navigation.navigate('Tabs');
     }
 
-    const handleLoginCourier =() =>{
-        navigation.navigate('AuthForm', {screen: 'Авторизация'});
-    }
-    const handleRegistrationCourier =() =>{
-        navigation.navigate('AuthForm', {screen: 'Регистрация'});
+    const handleLoginCourier = () => {
+        navigation.navigate('AuthForm', { screen: 'Авторизация' });
     }
 
     return (
-        <View>            
+        <View>
+            <Image source={require('../../assets/icon.png')} style={styles.logo} />
             {
-                modeApp === 'base_user'? (
-                <View>
-                    <NavBar title='Вход в систему как'/>
-                    <View style={styles.conteiner}>
-                        <TouchableOpacity style={styles.button} onPress={()=> handleBaseUser()}>
-                            <Text style={styles.text}>Пользователь</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.text}  onPress={()=> setModeApp('courier')}>Курьер</Text>
-                        </TouchableOpacity>
+                modeApp === 'base_user' ? (
+                    <View>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.welcomeMessage}>Добро пожаловать! </Text>
+                            <Text style={styles.titleText}>Войти в систему как </Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button} onPress={() => handleBaseUser()}>
+                                <MaterialIcons name="person" size={24} color="white" style={styles.inlineIcons} />
+                                <Text style={styles.buttonText}>Пользователь</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.button, { backgroundColor: "#6a751d" }]} onPress={() => handleLoginCourier()}> 
+                            {/* может изменить? backgroundColor на #88004b */}
+                                <MaterialIcons name="shopping-bag" size={24} color="white" style={styles.inlineIcons} />
+                                <Text style={styles.buttonText}>Курьер</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
                 ) : (
-                <View>
-                    <NavBar title='Войдите или зарегистрируйтесь'/>
-                    <View style={styles.conteiner}>
-                        <TouchableOpacity style={styles.button}  onPress={()=> handleLoginCourier()}>
-                            <Text style={styles.text}>Войти</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonRegistration} onPress={()=> handleRegistrationCourier()}>
-                            <Text style={styles.text}>Зарегистрироваться</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                    console.log('Необработанное состояние пользователя', modeApp)
                 )
             }
         </View>
@@ -54,34 +48,51 @@ export default function EntryForm() {
 
 
 const styles = StyleSheet.create({
-    conteiner:{
-        // backgroundColor: 'gold',
-        height:550,
+    titleContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    welcomeMessage: {
+        marginBottom: 30,
+        color: 'black',
+        fontSize: 20,
+    },
+    titleText: {
+        color: 'black',
+        fontSize: 22,
+        fontWeight: 'bold',
+    },
+    logo: {
+        width: 305,
+        height: 159,
+        marginTop: 40,
+        marginBottom: 20,
+        alignSelf: 'center',
+    },
+    buttonContainer: {
+        marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
     },
     button: {
-        margin:30,
-        width:200,
-        height:50,
+        margin: 30,
+        paddingLeft: 20,
+        height: 60,
+        width: 240,
         alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,  
-        borderRadius: 20, 
-        backgroundColor: '#32b3db'   
+        justifyContent: 'flex-start',
+        borderRadius: 30,
+        backgroundColor: '#4A8800',
+        flexDirection: 'row',
+        elevation: 5,
     },
-    buttonRegistration: {
-        margin:30,
-        width:300,
-        height:50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,  
-        borderRadius: 20, 
-        backgroundColor: '#32b3db'   
+    buttonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 10,
+        color: 'white',
     },
-    text:{
-        fontSize:20,
-        fontWeight: 'bold'
+    inlineIcons: {
+        padding: 4,
     }
-  });
+});
