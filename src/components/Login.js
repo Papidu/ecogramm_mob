@@ -73,6 +73,7 @@ export default function Login() {
                     style={styles.textInput}
                     onChangeText={onChangeTextLogin}
                     value={textLogin}
+                    returnKeyType='next'
                 />
             </View>
             <View>

@@ -60,12 +60,15 @@ export default function Service() {
     function onSubmit() {
         let dataForm = {}
         if (textAddress === '') {
-            alert('Укажите, пожалуйста, адрес');
+            Alert.alert('Заявка не сформирована', 'Укажите, пожалуйста, адрес');
         }
         if (dataTimeText === '') {
-            alert('Укажите, пожалуйста, дату и время');
+            Alert.alert('Заявка не сформирована', 'Укажите, пожалуйста, дату и время');
         }
-        if (textAddress !== '' && dataTimeText !== '') {
+        if (userPhone === '') {
+            Alert.alert('Заявка не сформирована', 'Укажите, пожалуйста, Ваш телефон для связи');
+        }
+        if (textAddress !== '' && dataTimeText !== '' && userPhone !== '') {
             dataForm = {
                 "courier_phone": "8 (000) 000-00-00",
                 "user_phone": userPhone,// 8 (978) 806-10-44,
@@ -82,8 +85,9 @@ export default function Service() {
     return (
         <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.container}>
+                <Text style={styles.text}>Укажите адрес для сбора</Text>
                 <TextInput
-                    style={[styles.textInput, {marginTop: 12}]}
+                    style={styles.textInput}
                     onChangeText={onChangeTextAddress}
                     value={textAddress}
                     placeholder='Укажите адрес'
@@ -92,13 +96,13 @@ export default function Service() {
                 />
             </View>
             <View style={styles.container}>
-                <Text style={styles.text}>Выберите, что хотите сдать:</Text>
+                <Text style={styles.text}>Выберите, что хотите сдать</Text>
                 <View style={styles.containerItems}>
                     <TouchableOpacity style={styles.itemToRecycle} onPress={() => setselectTypeGarbage(1)}>
                         <Entypo name="text-document" size={40} color={selectTypeGarbage === 1 ? "brown" : "black"} />
                         <Text>Mакулатура</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.itemToRecycle} onPress={() => setselectTypeGarbage(2)}>
+                    <TouchableOpacity style={[styles.itemToRecycle, { marginLeft: 5, }]} onPress={() => setselectTypeGarbage(2)}>
                         <FontAwesome5 name="wine-bottle" size={40} color={selectTypeGarbage === 2 ? "brown" : "black"} />
                         <Text>Стекло</Text>
                     </TouchableOpacity>
@@ -115,6 +119,7 @@ export default function Service() {
                 <TextInput
                     style={styles.textInput}
                     keyboardType='phone-pad'
+                    placeholder='Номер телефона'
                     value={userPhone}
                     onChangeText={onChangeUserPhone}
                 />
@@ -136,7 +141,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
     },
     text: {
-        paddingHorizontal: 20,
         padding: 10,
         fontSize: 20,
     },
@@ -155,7 +159,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     itemToRecycle: {
-        marginLeft: 5,
         width: 150,
         borderStyle: 'solid',
         borderWidth: 1,

@@ -91,6 +91,7 @@ export default function Registration() {
                     onChangeText={onChangePhoneNumber}
                     value={textPhoneNumber}
                     keyboardType={'phone-pad'}
+                    returnKeyType='next'
                 />
             </View>
             <View>
@@ -100,6 +101,7 @@ export default function Registration() {
                     onChangeText={onChangePassword}
                     secureTextEntry={true}
                     value={textPassword}
+                    returnKeyType='next'
                 />
             </View>
             <View>
@@ -108,6 +110,7 @@ export default function Registration() {
                     style={styles.textInput}
                     onChangeText={onChangeUserName}
                     value={textUserName}
+                    returnKeyType='next'
                 />
             </View>
             <View>
@@ -116,6 +119,7 @@ export default function Registration() {
                     style={styles.textInput}
                     onChangeText={onChangeName}
                     value={textName}
+                    returnKeyType='next'
                 />
             </View>
             <View>
@@ -124,6 +128,7 @@ export default function Registration() {
                     style={styles.textInput}
                     onChangeText={onChangeSurname}
                     value={textSurname}
+                    returnKeyType='next'
                 />
             </View>
             <View>

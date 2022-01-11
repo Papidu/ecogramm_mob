@@ -85,7 +85,7 @@ export default function CourierHome() {
                 setModeStatusWait('В пути')
             } else {
                 Alert.alert(
-                    '',
+                    'Произошла ошибка',
                     "Что-то пошло не так, попробуйте повторить позже",
                     [
                         { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
@@ -105,7 +105,7 @@ export default function CourierHome() {
                 setModeStatusWait('в ожидании')
             } else {
                 Alert.alert(
-                    '',
+                    'Произошла ошибка',
                     "Что-то пошло не так, попробуйте повторить позже",
                     [
                         { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
@@ -127,11 +127,10 @@ export default function CourierHome() {
                     <Text>{item.user_name || 'Неизвестно'}</Text>
                 </View>
                 <View>
-                    {/* <Text style={styles.text}>Дата заявки</Text> */}
                     <Text style={styles.icon}>
-                    {item.thrash_type === "Макулатура" ?
-                        <Entypo name="text-document" color='#13818D' style={styles.icon} size={45}/>
-                        : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={45} />}
+                        {item.thrash_type === "Макулатура" ?
+                            <Entypo name="text-document" color='#13818D' style={styles.icon} size={45} />
+                            : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={45} />}
                     </Text>
                     <Text style={[item.status === 'в ожидании' ? styles.textStatusGold : styles.textStatusGreen]}>Заказ {item.status.toLowerCase()}</Text>
                     {item.status === modeStatusWait ? (
@@ -139,7 +138,7 @@ export default function CourierHome() {
                             <Text style={styles.buttonText}>Беру заказ</Text>
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity style={[styles.button, {backgroundColor: '#dc4640'}]} onPress={() => handleCancelOrder(item)}>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: '#dc4640' }]} onPress={() => handleCancelOrder(item)}>
                             <Text style={styles.buttonText}>Отмена</Text>
                         </TouchableOpacity>
                     )}
@@ -149,7 +148,7 @@ export default function CourierHome() {
     }
 
     return (
-        <View style={{ backgroundColor: '#FAFFF4' }}>
+        <View>
             <FlatList
                 data={orderData}
                 keyExtractor={(item) => item.id.toString()}
@@ -174,9 +173,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         borderRadius: 2,
         borderColor: '#fffff4',
-        elevation:1,
-        shadowColor:"rgb(50,50,50)",
-        shadowOpacity:1,
+        elevation: 1,
+        shadowColor: "rgb(50,50,50)",
+        shadowOpacity: 1,
     },
     date: {
         color: '#535353',
@@ -204,9 +203,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        textShadowColor:'#585858',
-        textShadowOffset:{width: 1, height: 1},
-        textShadowRadius:10,
+        textShadowColor: '#585858',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 10,
     },
     icon: {
         margin: 16,

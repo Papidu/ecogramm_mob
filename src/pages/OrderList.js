@@ -1,6 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import { View, Text, FlatList,ScrollView,StyleSheet, RefreshControl} from 'react-native'
-import { HEIGHT } from '../../constants';
+import React, { useState, useEffect } from 'react'
+import { View, Text, FlatList, ScrollView, StyleSheet, RefreshControl, TouchableOpacity, Alert } from 'react-native'
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
+import moment from 'moment'
+import 'moment/locale/ru'
 
 
 
@@ -8,32 +11,31 @@ export default function OrderList() {
     const [orderData, setOrderData] = useState([{}])
     const [refreshing, setrefReshing] = useState(false)
 
-    const onRefreshItem =async () =>{
+    const onRefreshItem = async () => {
         setrefReshing(true)
         const url = 'http://vm-fd0ab233.na4u.ru:8080/delivery/requests';
-        const header = {            
+        const header = {
             method: 'POST',
             body: JSON.stringify({}),
             headers: {
-            'Content-Type': 'application/json'
-        }}
-    
-        try{
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
             const response = await fetch(url, header);
             const json = await response.json();
-            const status= response.status
             console.log(json)
             setOrderData(json)
             setrefReshing(false)
-            // setOrderData(fakeData)
-        } catch (e){
+        } catch (e) {
             console.log('Ошибка ', e)
-        } finally{
+        } finally {
             setrefReshing(false)
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         onRefreshItem();
     }, [])
 
@@ -41,272 +43,171 @@ export default function OrderList() {
 
     return (
         <View>
-            <View style={{marginTop: 10,height:HEIGHT /1.3} }> 
-                {
-                    orderData.length === 0?(
-                        <ScrollView
-                            contentContainerStyle={{justifyContent:'center',alignItems:'center'}}
-                            refreshControl={
+            {
+                orderData.length === 0 ? (
+                    <ScrollView
+                        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                        refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
                                 onRefresh={onRefreshItem}
                             />
-                            }
-                        >
-                            <Text>Вы ничего не заказывали</Text> 
-                        </ScrollView>
-                    ):( 
-                   <FlatList
-                    data={orderData.filter(x => x.user_phone_number === userPhones)}
-                    keyExtractor={(item, index) => index.toString()}
-                    // keyExtractor={item => item.id}
-                    refreshControl={<RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefreshItem}
+                        }
+                    >
+                        <Text>Вы ничего не заказывали</Text>
+                    </ScrollView>
+                ) : (
+                    <FlatList
+                        data={orderData.filter(x => x.user_phone_number === userPhones)}
+                        keyExtractor={(item, index) => index.toString()}
+                        // keyExtractor={item => item.id}
+                        refreshControl={<RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefreshItem}
                         />}
-                    renderItem={({item}) =><OrderItem item={item} />}
+                        renderItem={({ item }) => <OrderItem item={item} />}
                     />
                 )}
-            </View>
         </View>
     )
 }
 
 const OrderItem = (props) => {
-    const {item} = props
-    let date =(item.create_date || "1992-01-06").replace('T','\n');
+    async function handleGetOrder(item) {
+        const data = {
+            "id_req": item.id,
+            "status": 'В пути',
+            "courier_phone": courierPhone
+        }
+        const resstatus = await updateStatus(data)
+        // console.log('asdasdasdasd\n', resstatus, typeof(resstatus))
+        if (resstatus.status == 200) {
+            setModeStatusWait('В пути')
+        } else {
+            Alert.alert(
+                'Произошла ошибка',
+                "Что-то пошло не так, попробуйте повторить позже",
+                [
+                    { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
+                ]
+            );
+        }
+    }
+    async function handleCancelOrder(item) {
+        const data = {
+            "id_req": item.id,
+            "status": 'в ожидании',
+            "courier_phone": courierPhone
+        }
+        const resstatus = await updateStatus(data)
+        // console.log('aaaaaa\n', resstatus.status, typeof(resstatus.status))
+        if (resstatus.status == 200) {
+            setModeStatusWait('в ожидании')
+        } else {
+            Alert.alert(
+                'Произошла ошибка',
+                "Что-то пошло не так, попробуйте повторить позже",
+                [
+                    { text: "OK", onPress: () => setModeStatusWait('в ожидании') }
+                ]
+            );
+        }
+    }
+    const { item } = props
+    const [modeStatusWait, setModeStatusWait] = useState('в ожидании')
+    moment.locale('ru')
+    let date = moment(item.create_date || "1992-01-06").format('DD MMM h:mm')
     return (
         <View>
-            <View style={styles.container}> 
+            <View style={styles.card}>
                 <View>
-                    <Text style={styles.text}>Имя заказчика</Text>
-                    <Text>{item.user_name || 'Не назначен'}</Text>
-                    <Text style={styles.text}>Подготовить к вывозу </Text>
-                    <Text>{item.thrash_type}</Text>
-                    <Text style={styles.text}>Адрес доставки</Text>
-                    <Text>{item.delivery_address}</Text>
+                    <Text style={styles.text}>Когда заберет</Text>
+                    <Text style={styles.date}>{date}</Text>
+                    <Text style={styles.text}>Адрес</Text>
+                    <Text style={styles.address}>{item.delivery_address}</Text>
+                    <Text style={{ color: 'black', marginBottom: 10 }}>Заберет {item.courier_name}</Text>
+                    <Text style={{ color: 'blue', textDecorationLine: 'underline'}}>{item.courier_phone_number}</Text>
                 </View>
                 <View>
-                    <Text style={styles.text}>Имя курьера</Text>
-                    <Text>{item.courier_name}</Text>
-                    <Text style={styles.text}>Дата заявки</Text>
-                    <Text style={{color:'black', fontSize:15}}>{date}</Text>
-                    <Text style={styles.text}>Статус заказа</Text>
-                    <Text style={[item.status==='в ожидании'?styles.textStatusGold: styles.textStatusGreen]}>{item.status}</Text>
+                    <Text style={{ color: 'black' }}>Подготовить к вывозу </Text>
+                    <Text style={styles.icon}>
+                        {item.thrash_type === "Макулатура" ?
+                            <Entypo name="text-document" color='#13818D' style={styles.icon} size={45} />
+                            : <FontAwesome5 name="wine-bottle" color="brown" style={styles.icon} size={45} />}
+                    </Text>
+                    <Text style={styles.text}>Заказ</Text>
+                    <Text style={[item.status === 'в ожидании' ? styles.textStatusGold : styles.textStatusGreen]}>{item.status.toLowerCase()}</Text>
+                    {item.status === 'в ожидании' ? (
+                        <TouchableOpacity style={[styles.button, { backgroundColor: '#dc4640' }]} onPress={() => handleCancelOrder(item)}>
+                            <Text style={styles.buttonText}>Отмена</Text>
+                        </TouchableOpacity>
+                    ) : (<></>
+                    )}
                 </View>
-            </View>           
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    card: {
         flexDirection: 'row',
         marginHorizontal: 10,
-        backgroundColor: '#eee',//'gold',
-        marginVertical: 5,
-        borderWidth:1,
+        // paddingHorizontal: 16,
+        backgroundColor: '#f5fff4',//'gold',
+        marginVertical: 3,
         justifyContent: 'space-around',
+        borderRadius: 2,
+        borderColor: '#fffff4',
+        elevation: 1,
+        shadowColor: "rgb(50,50,50)",
+        shadowOpacity: 1,
+    },
+    date: {
+        color: '#535353',
+        fontSize: 18,
+        lineHeight: 24,
+        marginVertical: 10,
+    },
+    address: {
+        color: '#363636',
+        fontSize: 22,
+        textDecorationLine: 'underline',
+        lineHeight: 30,
+        marginBottom: 10,
+    },
+    button: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 130,
+        height: 30,
+        marginVertical: 10,
+        borderRadius: 10,
+        backgroundColor: '#4CAF50',
+        elevation: 4,
+    },
+    buttonText: {
+        color: 'white',
+        textShadowColor: '#585858',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 10,
+    },
+    icon: {
+        margin: 16,
+        textAlign: "center"
     },
     text: {
         color: 'black',
         fontSize: 15,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
-    textStatusGold:{
-        color:'#e2be09',
+    textStatusGold: {
+        color: '#e2be09',
+        fontStyle: 'italic',
     },
-    textStatusGreen:{
-        color:'green',
+    textStatusGreen: {
+        color: 'green',
+        fontStyle: 'italic',
     }
-  });
-
-
-
-
-
-
-const fakeData = [
-    {
-        "id":0,
-      "delivery_address": "Нептун 7",
-      "create_date": "2022-01-23T11:36:43",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":1,
-      "delivery_address": "Олпплмлмлил",
-      "create_date": "2022-01-22T10:19:25",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":2,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T15:59:58",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":3,
-      "delivery_address": "Шума",
-      "create_date": "2022-01-22T11:10:18",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": null,
-      "user_surname": null,
-      "user_phone_number": null,
-      "user_username": null
-    },
-    {
-        "id":4,
-      "delivery_address": "Коминтерна 5",
-      "create_date": "2022-01-23T10:49:20",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":5,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T14:59:58",
-     "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":6,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T15:59:58",
-      "thrash_type":  "Стекло",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":7,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T15:59:58",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":8,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T15:59:58",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":9,
-      "delivery_address": "Коминтерна 5",
-      "create_date": "2022-01-07T10:49:20",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":10,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T14:59:58",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    },
-    {
-        "id":11,
-      "delivery_address": "Шума",
-      "create_date": "2022-01-22T11:10:18",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": null,
-      "user_surname": null,
-      "user_phone_number": null,
-      "user_username": null
-    },
-    {        
-        "id":12,
-      "delivery_address": "ул. Пушкина, д.8, кв. 6",
-      "create_date": "2022-04-01T15:59:58",
-      "thrash_type":  "Макулатура",
-      "status": null,
-      "courier_name": "Sonic",
-      "courier_surname": "Red",
-      "courier_phone_number": "8 (978) 806-10-44",
-      "user_name": "Mikle2",
-      "user_surname": "asdasdaasfasf",
-      "user_phone_number": "8 (978) 806-13-25",
-      "user_username": "Mikle"
-    }
-  ]
+});
